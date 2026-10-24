@@ -112,11 +112,13 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 v2.1.98-wip (2026-10-24, rig tested; user test due): L taps the Phantom Hourglass button in the final boss fight
   (user request, user state 938: "a new button to press for the phantom hourglass"; design as the Gongoron swap).
   - Found (rig, state 938): the hourglass = touch button (vtable 0x020e893c) id HG_ID 0x1d, layout cell HG_CELL 0x4a,
-    bottom centre ~(128, 180); a stylus tap there sets its +0xd to 4 and time stops. Its +0x11 (GORON_FORM) = 0.
+    bottom centre ~(128, 180); a stylus tap there sets its +0xd to 4 and opens the drawing frame (yellow corners; then a figure eight drawn with the stylus stops time, bossLast1.bmg#1). Its +0x11 (GORON_FORM) = 0.
   - Code: fs_btn records it in gr_tab like the Goron swap button, so goron_ctl taps it on a new L. +0x11 = 0, so
     fg_roll does not take B for a Gongoron roll. dpad.bin 18357 bytes, 75 bytes free of 0x4800.
-  Rig (state 938 = v2.1.97-wip code; new dpad.bin poked at 0x0219B120, 5 BL hooks re-aimed): L = button +0xd 8, time
-  stops (yellow corners, Menu / Items gone); L again while stopped = nothing; time runs again later.
+  Rig (state 938 = v2.1.97-wip code; new dpad.bin poked at 0x0219B120, 5 BL hooks re-aimed): L = button +0xd 8, the drawing
+  frame opens (yellow corners, Menu / Items gone); L again in the frame = nothing; the frame closes by itself later.
+  The figure eight leaves no line on screen: the same with every patch word reverted in RAM (state 940, rig), so that is
+  the original game. User (state 940, 2026-10-24): the eight traced without a line works; left as is.
   Not tested: real RetroArch; whether id 0x1d / cell 0x4a shows on other screens (L would tap it there too).
   ROM: "Phantom Hourglass US - Button Controls v2.1.98-wip.nds" (root), SHA-1 d9b324c6b8f62070ac6b8d3aeeffca23001517ef,
   CRC32 1abb3228; save: "...v2.1.98-wip.srm" in RetroArch saves\melonDS DS\ = a copy of the playthrough .srm.
