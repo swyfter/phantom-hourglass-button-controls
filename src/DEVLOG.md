@@ -13,11 +13,11 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.80 (builds\v2.1.80\, = root playthrough ROM, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite). Root wip: v2.1.94-wip (merchant grid light; rig tested, user test due). Next wip: v2.1.95-wip.
+- Latest release: v2.1.80 (builds\v2.1.80\, = root playthrough ROM, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite). Root wip: v2.1.95-wip (merchant grid light + tab switch race; rig tested, user test due; v2.1.94-wip is in builds\, untested by the user). Next wip: v2.1.96-wip.
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
-- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 191 bytes free since v2.1.94-wip (was 0x4700 since v2.1.91-wip).
+- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 111 bytes free since v2.1.95-wip (was 0x4700 since v2.1.91-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
@@ -105,7 +105,28 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.94-wip (2026-10-24, rig tested; user test due): the merchant grid keeps its light after a long Left / Right press
+v2.1.95-wip (2026-10-24, rig tested; user test due): a key pressed during a tab switch waits for the new tab (user
+  request: "Fix the tab switch race: Down pressed right after a tab tap holds a slot on the old tab").
+  ROM "Phantom Hourglass US - Button Controls v2.1.95-wip.nds", SHA-1 52abbcf6388772c005fda7d1b0166012b8f1204b,
+  CRC32 b78f0457; based on v2.1.94-wip; source known/v2.1.95-wip_dpad.s; dpad.bin 18321 bytes, CODE_RESERVE 0x4800,
+  111 bytes free:
+  - Found (rig, state 828, merchant): from our tab tap (CH_TAP, CH_CONFIRM at TAB_Y, frames 1-16) the switch takes
+    about 58 frames. Both panels' +0xc bit 0 is 0 from frame 12 to frame 58 (COLL_PAGE changes at frame 30); it is 1
+    at rest (merchant, and the collection panels in user states 551 / 552). A raw stylus press made after the bit is
+    back is always seen. Down in that time held a slot on the old tab (or the new one before it was ready), and
+    the game never saw the press. Down during the tap itself was dropped.
+  - Fix: cl_gridv (all tabbed grids; not shipyard Customize, no tabs) treats the grid as busy while panel +0xc bit 0
+    is 0, or while ch_tap is CH_TAP / CH_CONFIRM at TAB_Y: new A / B / D-pad are hidden from the game and kept in
+    cl_wtk (new byte, cl_sel + 13, in the old .balign pad); the CH_OFF path adds them once the grid is ready; cl_no
+    clears cl_wtk. Collection page 2 tab taps use menu_tap, not ch_tap: there only the bit 0 wait applies (no
+    collection state in the rig to test).
+  - Rig (state 828 hot-linked, scratchpad hot.py / t_race.py / t_fix2.py): Left (to Treasure) or Right (to Ship
+    Parts), then Down 0 / 2 / 4 / 8 / 12 / 16 / 20 / 30 / 40 / 50 / 60 frames later: 22 of 22 hold a slot on the new tab
+    with the game's press. Random bursts (seeds 1-3): 662 checked, 0 lost. Left / Right held 2-40 frames: pressed.
+    Left then Right 10 frames apart: ends on Ship Parts. B during a switch: waits, then Quit leaves the merchant.
+    (The hot-linked rig shows noise on the top-screen map: the rig's code range at 0x21d2000 is not free there.)
+
+v2.1.94-wip (2026-10-24, rig tested; replaced by v2.1.95-wip before a user test; ROM in builds\): the merchant grid keeps its light after a long Left / Right press
   (user report, user state 828: treasure merchant, Ship Parts tab, "sometimes the dpad cursor disappears from the tile
   that should be selected when moving from left or right", both tabs).
   ROM "Phantom Hourglass US - Button Controls v2.1.94-wip.nds", SHA-1 8634c92465eba4e21dbc4024f4ed445e83295541,
@@ -123,7 +144,7 @@ v2.1.94-wip (2026-10-24, rig tested; user test due): the merchant grid keeps its
     Parts Left / Right held 2-40 frames = pressed; Treasure tab Right / Down / Left / Up held 4 / 12 / 24 frames =
     pressed, light shown. Random bursts (1-4 D-pad keys, each held 1-12 frames, gaps 0-10 frames), then a check
     of the game's press at the slot our stylus holds: v2.1.93-wip code 118 of 431 lost, v2.1.94-wip 1 of 435.
-  - Still open (separate issue, not fixed): that 1 loss is a tab switch race. Right taps the Ship Parts tab, and
+  - Still open (fixed in v2.1.95-wip): that 1 loss is a tab switch race. Right taps the Ship Parts tab, and
     Down within 12 frames (before COLL_PAGE changes) holds a slot on the old tab; the new tab then has no press.
 
 v2.1.93-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "both buttons work great"; released as v2.1.80 the same day on the user's request (builds\v2.1.80\: bps 28,342, xdelta 30,321, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): letter screen on buttons (user request, user state 825: a red mailbox,

@@ -376,6 +376,7 @@
         .equ CL_BACK, 9
         .equ CL_PASS, 10
         .equ CL_TGT, 12
+        .equ CL_WTK, 13
         .equ IP_KEY, 2                  @ ip_sel (item per half at +0, +1): ip_key, ip_own,
         .equ IP_OWN, 3                  @   ip_pass, ip_pend, ip_pwait
         .equ IP_PASS, 4
@@ -1610,7 +1611,8 @@ sh_actor:
 @ stay. Up on the top row (or with no slot above) lets go the same way = tab level, where
 @ Left / Right switch tabs; Down on the bottom row (or with no slot below) stays. Other keys (Select, ...) with the stylus down wait until it has let go,
 @ so the game never sees a lift after the screen changed. Nothing held: Left/Right/B go on
-@ to pad_update (tab chain; B = Select). Keys pressed while the stylus moves wait in cl_key.
+@ to pad_update (tab chain; B = Select). Keys pressed while the stylus moves wait in cl_key;
+@ A/B/D-pad pressed while the tabs switch (panel +0xc bit 0 clear) wait in cl_wtk.
 @ Entry shown: B taps the back arrow; A too, except on the Ship Parts list, where A taps
 @ Explanation (its back arrow returns to the list). A/B/D-pad are hidden from the game there.
 @ Ship Parts list (9 rows of one part kind, 3 on screen): Up/Down pick the previous / next
@@ -1898,6 +1900,23 @@ cl_gridv:
         ldrh    r1, [r2]                @ held Left / Right: the game's grid takes no new press
         bic     r1, r1, #(KEY_LEFT | KEY_RIGHT) @   (a slot move with them still held lost its
         strh    r1, [r2]                @   light: user state 828; Up / Down do not block it)
+        cmp     r5, #(SY_CUST - COLL_SHIP) @ tabs switching: our tab tap, then panel +0xc bit 0
+        beq     cl_ready                @   is 0 (about 46 frames) and a press then is lost;
+        ldrb    r1, [r9, #0xc]          @   keep A / B / D-pad in cl_wtk until it is back
+        tst     r1, #1                  @   (shipyard: no tabs)
+        beq     1f
+        cmp     r0, #CH_TAP
+        cmpne   r0, #CH_CONFIRM
+        bne     cl_ready
+        ldrb    r1, [r8, #CT_Y]
+        cmp     r1, #TAB_Y
+        bne     cl_ready
+1:      ands    r1, r7, #(KEY_A | KEY_B | DPAD)
+        strbne  r1, [r4, #CL_WTK]
+        bic     r1, r7, #(KEY_A | KEY_B | DPAD)
+        strh    r1, [r2, #2]
+        b       ctl_done
+cl_ready:
         mvn     r3, #0
         strb    r3, [r4, #CL_TGT]        @ no parts-list row to bring up
         mov     r3, #0
@@ -1909,6 +1928,9 @@ cl_gridv:
         mov     r3, #0
         strh    r3, [r4, #CL_PASS]
         strb    r3, [r4, #CL_KEY]
+        ldrb    r1, [r4, #CL_WTK]       @   and the keys kept while the tabs switched
+        orr     r7, r7, r1
+        strb    r3, [r4, #CL_WTK]
         cmp     r5, #1                  @ shipyard, merchant: the game sees no A/B/D-pad
         bicls   r1, r7, #(KEY_A | KEY_UP | KEY_DOWN)
         bichi   r1, r7, #(KEY_A | KEY_B | DPAD)
@@ -2054,6 +2076,7 @@ cl_no:  mov     r0, #0                  @ not on page 2: nothing waits
         mvn     r0, #0
         strb    r0, [r4, #CL_TGT]
         mov     r0, #0
+        strb    r0, [r4, #CL_WTK]
         pop     {r4-r10, pc}
 
 @ r1 = slot of tab r5 (panel r9) -> flags eq if it is empty (no entry). Clobbers r6, r12.
@@ -5508,6 +5531,9 @@ cl_pass:
         .hword  0                       @ (cl_sel + 10) other keys waiting for the stylus to let go
 cl_tgt:
         .byte   0xff                    @ (cl_sel + 12) parts-list row Up/Down is bringing up (0xff = none)
+cl_wtk:
+        .byte   0                       @ (cl_sel + 13) A / B / D-pad pressed while the tabs switched
+        chk_off CL_WTK, cl_wtk, cl_sel
         chk_off CL_LOCK, cl_lock, cl_sel
         chk_off CL_KEY, cl_key, cl_sel
         chk_off CL_BACK, cl_back, cl_sel
