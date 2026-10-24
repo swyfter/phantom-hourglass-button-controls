@@ -262,6 +262,7 @@
         .equ GPLAYER, 0x027e0f90       @ gPlayer: +0x3c held actor id (-1 = nothing held)
         .equ PLAYER_POS, 0x027e0f94    @ gPlayerPos (x, y, z)
         .equ PLAYER_ANGLE, 0x027e0fac  @ gPlayerAngle (u16, 0 = +z)
+        .equ VBLANK_COUNT, 0x027ffc3c  @ SDK frame counter (HW_VBLANK_COUNT_BUF): +1 every 60 Hz frame
         .equ IT_FIRST, 2                @ items R uses: 2 boomerang, 3 shovel, 4 bombs, 5 bow,
         .equ IT_BOMBS, 4                @   6 grappling hook, 7 bombchu, 8 hammer
         .equ IT_BOW, 5
@@ -4295,19 +4296,16 @@ fg_hide:
         add     r2, sp, #4
         add     r3, sp, #8
         bl      ScreenFromWorld
-        mov     r12, #1                 @ r12 = reads per stroke side
-        cmp     r5, #4                  @ r5 = 4: ice (user state 608: pad read every frame, the game
-        moveq   r5, #0                  @   samples the stylus every 2nd one: a side per read cancels)
-        moveq   r12, #2
         cmp     r5, #0
         bne     bw_pt
         ldrsh   r0, [sp, #4]
         ldrsh   r1, [sp, #8]
         add     sp, sp, #32
-        ldrb    r2, [r4, #FGD_STEP]
-        add     r2, r2, #1
-        strb    r2, [r4, #FGD_STEP]
-        tst     r2, r12                 @ diagonal strokes: the game ignores a rub with no y change
+        ldr     r2, =VBLANK_COUNT       @ a stroke side = 2 frames, however often the pad is read: the
+        ldr     r2, [r2]                @   game samples the stylus every 2nd frame (ice, user state 608;
+        tst     r2, #2                  @   final boss clash, state 944: pad read every frame, a side
+                                        @   per read cancelled). Diagonal strokes: the game ignores a
+                                        @   rub with no y change
         addne   r0, r0, #RUB_DX
         subeq   r0, r0, #RUB_DX
         addne   r1, r1, #RUB_DY
@@ -4513,10 +4511,6 @@ fg_grab1:
         ldreq   r2, [r1, #0x18]
         cmpeq   r2, #LS_ICE
         bne     fg_roll
-        tst     r3, #KEY_A
-        beq     fg_lift
-        mov     r5, #4                          @ r5 = 4: the ice rub (half-rate strokes)
-        b       fg_hide
 fg_rub:
         tst     r3, #KEY_A
         beq     fg_lift

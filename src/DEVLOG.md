@@ -13,14 +13,14 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.83 (builds\v2.1.83\, = root playthrough ROM, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; L opens / closes the final fight's hourglass drawing frame). Root wip: none. Next wip: v2.1.100-wip.
+- Latest release: v2.1.83 (builds\v2.1.83\, = root playthrough ROM, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; L opens / closes the final fight's hourglass drawing frame). Root wip: v2.1.100-wip (hold A wins the final boss sword clash; user test due). Next wip: v2.1.101-wip.
 - Previous release: v2.1.82 (builds\v2.1.82\, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list).
 - Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
-- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 111 bytes free since v2.1.95-wip (was 0x4700 since v2.1.91-wip).
+- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 51 bytes free since v2.1.100-wip (was 0x4700 since v2.1.91-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
@@ -110,6 +110,26 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.100-wip (2026-10-24, rig tested; user test due): hold A wins the final boss sword clash (user state 944: Bellum's
+  sword locked with Link's, "RUB!" bubble with a left-right arrow; the state holds v2.1.97-wip code = v2.1.82).
+  - Found (rig, state 944): the known clash: Link state 4 (0x0225686c) sub-state 8, gPlayer +0x48 = 0x20, so fg_off's rub
+    already ran (fg_x / fg_y zig-zag 104/152, 122/130), but held A = no input: Link loses at frame 110 (damage state 5).
+    The pad is read every frame in this fight and the game samples the stylus every 2nd frame, so one stroke side per
+    pad read cancelled (the ice problem of user state 608). Raw stylus: diagonal +/-24 x, +/-6 y, 2 frames a side =
+    Link wins at frame 70 (item state 1 = the swing, then free); 3 frames a side = free at 100; 1 frame a side and flat
+    x strokes = lose. Jolene (state 360, 30 Hz reads): 2 frames a side wins at 80, 4 at 130, 1 and 6 lose.
+  - Code: fg_hide: the stroke side = bit 1 of VBLANK_COUNT 0x027ffc3c (the SDK frame counter, HW_VBLANK_COUNT_BUF; +1
+    per frame in the rig) instead of the fg_step pad read count; so a side lasts 2 frames at any pad rate. Same strokes
+    as before at 30 Hz (one side per read) and for the ice (was 2 reads a side via r5 = 4); the ice branch now goes to
+    fg_rub. dpad.bin 18381 bytes, 51 bytes free of 0x4800 (32 bytes saved).
+  Rig (state 944, new dpad.bin poked at 0x0219B120, 10 hooks + the fs_btn vtable word re-aimed from the v2.1.97 elf
+  symbols, runtime variables copied with v2.1.98's 4-byte hg_xy gap): hold A = Link wins the clash at frame 70, Bellum
+  pushed back, "!" bubble; no A = loses at 110. Fresh boot of the wip ROM (no save): title, file creation, no crash.
+  Not tested: real RetroArch; Jolene, ice, green blobs, sand monster and Like Like with the new code (no states with
+  this code; by the timing math their strokes are unchanged).
+  ROM: "Phantom Hourglass US - Button Controls v2.1.100-wip.nds" (root), SHA-1 8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e,
+  CRC32 5b02447a; save: "...v2.1.100-wip.srm" in RetroArch saves\melonDS DS\ = a copy of the playthrough .srm.
 
 v2.1.99-wip (2026-10-24, rig tested; released as v2.1.83 the same day on the user's request, before a RetroArch test (builds\v2.1.83\: bps 28,493, xdelta 30,470, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user test due): L also closes the hourglass drawing frame (user request:
   "L button should also close the drawing frame").
