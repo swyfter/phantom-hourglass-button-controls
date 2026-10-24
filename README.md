@@ -84,6 +84,16 @@ See the **[full controls list](docs/README.txt)**.
 
 ---
 
+## How the patch works, and possible quirks
+
+The game is made for the stylus. The patch does not remove the touch controls. It turns your button presses into the touches, taps and strokes that the game expects. For example, **A** taps the text box to advance text, and **Hold A** rubs at a "RUB!" prompt.
+
+The game does not expect these touches, so some quirks can still occur. For example, a button can tap the wrong thing on the screen, or it can do nothing.
+
+If a button does not work at a place in the game, use the stylus there. Then please [report the bug](CONTRIBUTING.md#report-a-bug), so that we can fix it.
+
+---
+
 ## More information
 
 - [Full controls, changelog and known limits](docs/README.txt)
