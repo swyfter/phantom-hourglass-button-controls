@@ -6,7 +6,7 @@ Only the latest release gets fixes.
 
 | Version | Supported |
 |---|---|
-| Latest release ([v2.1.75](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)) | Yes |
+| Latest release ([v2.1.82](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)) | Yes |
 | Older versions | No |
 
 ## What this project contains
@@ -19,7 +19,7 @@ The patch code runs only inside the game, in your emulator.
 ## How to stay safe
 
 1. Download the patch only from the [Releases page](https://github.com/swyfter/phantom-hourglass-button-controls/releases) of this repo. Copies on other sites can be changed.
-2. Check the patched ROM. Its CRC32 must be `8eccd90c` and its SHA-1 must be `c49f77eab798667024d85cafe516eaa75dfb79c7`.
+2. Check the patched ROM. Its CRC32 must be `e0267fc6` and its SHA-1 must be `de2b6e539a6d9a2fc9338f1fc8b554a0140580f3`.
 3. Use a patcher that runs in your browser, such as [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/), or a patcher from its official site.
 
 Releases are immutable. After a release is published, nobody can change its files or move its tag.

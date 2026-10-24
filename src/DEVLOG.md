@@ -10,11 +10,11 @@
   (LS_DAMAGE, LS_ICE). State 157 (deck) is also state 5 with +0x18 = 2: not matched. Needs a fresh ice freeze to test
   (state 584 holds the old code). CODE_RESERVE 0x4300, 223 bytes free.
 - Root wip: none (v2.1.80-wip released as v2.1.68; it is in builds\; user tested in RetroArch: hold A jumps off a grappling hook post). Entry below.
-- Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
+- Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
 - Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: none. Next wip: v2.1.98-wip.
-- Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; merchant grid light kept on long Left / Right, keys wait during a tab switch).
+- Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
@@ -27,7 +27,7 @@
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
 - Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: docs\test-checklist.md (the user passed every section up to v2.1.80 in RetroArch, including the v2.1.78 square push block and the v2.1.75 pedestal stones on 2026-10-24; still untested: the v2.1.69 bomb set-down and v2.1.81).
+- Pending user tests: none. The user passed every docs\test-checklist.md section in RetroArch by 2026-10-24, including the v2.1.69 bomb set-down and the v2.1.81 merchant grid.
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -63,7 +63,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.66 | v2.1.78-wip | 2026-10-21 | 9f6e07bc728f138e94993c438ef81b2076f85d34 | collection Ship Parts / Treasure / Items D-pad after the merchant overlay (v2.1.77-wip + v2.1.78-wip, CODE_RESERVE 0x4300) | rig; released on the user's request for a RetroArch test |
 | v2.1.67 | v2.1.79-wip | 2026-10-22 | b90297b17de54ac85a1256fa962e845fe4018ec7 | hold A rubs Link out of ice (damage state 5, +0x18 = 6) | yes (RetroArch, 2026-10-23) |
 | v2.1.68 | v2.1.80-wip | 2026-10-22 | 1e0d8d5fc3372aceb7ebe57d3b546ebc1fd5dd00 | hold A jumps off a grappling hook post (Link state 3 / sub-state 10); fg_grab state table load fixed (ice rub) | yes (RetroArch, 2026-10-22 post jump; 2026-10-23 ice rub) |
-| v2.1.69 | v2.1.81-wip | 2026-10-22 | 58d7d6087d15eb3a2c25d30c9d0250c5409c7964 | standing A with a bomb held sets it down the way Link faces (was always up-right) | rig; released on the user's request |
+| v2.1.69 | v2.1.81-wip | 2026-10-22 | 58d7d6087d15eb3a2c25d30c9d0250c5409c7964 | standing A with a bomb held sets it down the way Link faces (was always up-right) | yes (RetroArch, 2026-10-24: passed); released on the user's request before the test |
 | v2.1.70 | v2.1.82-wip | 2026-10-22 | f6f40cb45ca773b5f0244e90517daef8356c781e | grappling hook out: hold A draws the line farther the longer, release throws (CODE_RESERVE 0x4300, 7 bytes free) | yes (RetroArch, 2026-10-23) |
 | v2.1.71 | v2.1.84-wip | 2026-10-22 | 8cb83c5349d062f4691dcdf7d2cd90141b0ede31 | ice rub fixed, hook post jump aim | yes (RetroArch, 2026-10-23) |
 | v2.1.72 | v2.1.85-wip | 2026-10-22 | 0d4bdabc8a175a8e975d15fc4a2359860ca0a4f9 | hold A / B rolls Gongoron in the rupee minigame (CODE_RESERVE 0x4400, 35 bytes free) | yes (RetroArch, 2026-10-23) |
@@ -73,7 +73,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
 | v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
-| v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | rig; released on the user's request |
+| v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | yes (RetroArch, 2026-10-24: passed); released on the user's request before the test |
 | v2.1.82 | v2.1.97-wip | 2026-10-24 | de2b6e539a6d9a2fc9338f1fc8b554a0140580f3 | bombchu map GO! / CANCEL: route object found in the list at 0x020e9c28 (was a fixed distance below MAP_OBJ) | yes (RetroArch, 2026-10-24: "all buttons work") |
 | v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |

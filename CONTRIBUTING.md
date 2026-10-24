@@ -18,7 +18,7 @@ A security problem is not a bug report. See [SECURITY.md](SECURITY.md) and repor
 ## Before you open an issue
 
 1. Use the [latest release](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest). Only the latest release gets fixes.
-2. Check your patched ROM. Its CRC32 must be `8eccd90c`.
+2. Check your patched ROM. Its CRC32 must be `e0267fc6`.
 3. Load your **in-game save**, not an old emulator save state. An old save state brings back the old version's code.
 4. Read the [known limits](docs/README.txt) and the "What still needs the stylus" list in the [README](README.md).
 5. Search the [open issues](https://github.com/swyfter/phantom-hourglass-button-controls/issues). Add a comment to an issue that already exists.

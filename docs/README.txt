@@ -809,7 +809,7 @@ test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
 v2.1.82, in RetroArch with the melonDS DS core: the bombchu map GO! (A), CANCEL (B) and Back (B) on Mercay Island. Both patch files checked by applying them.
-v2.1.81: the treasure merchant grid (long Left / Right, keys during a tab switch) was tested in a test setup only. Both patch files checked by applying them.
+v2.1.81, in RetroArch with the melonDS DS core: the treasure merchant grid (long Left / Right, keys during a tab switch). Both patch files checked by applying them.
 v2.1.80, in RetroArch with the melonDS DS core: A (OK) and B (Rewrite) on the letter screen at a red mailbox. Both patch files checked by applying them.
 v2.1.79, in RetroArch with the melonDS DS core: NPC choices and the save Yes/No picked with the stylus and with the D-pad. Both patch files checked by applying them.
 v2.1.78: the hammer (state 806) and a round boulder (state 807) were tested in a test setup only; square push blocks were not tested. Both patch files checked by applying them.
@@ -821,7 +821,7 @@ v2.1.73: hold A with the hook out (full length line at once) was not tested, not
 v2.1.72: hold A or B rolls Gongoron in the rupee minigame (state 615) was checked in a test setup only: A, B, A + Left; A in the "play again" box is not taken. Both patch files checked by applying them.
 v2.1.71: hold A in the ice (state 608, Link frozen in a block of ice) freed Link in a test setup only: the old code left him frozen after 120 frames. The hook post jump (state 601: A alone, A + Down, A + Left, A + Down + Left, a short tap) was tested in a test setup only. Both patch files checked by applying them.
 v2.1.70: hold A with the hook out was tested in a test setup only (state 597). Both patch files checked by applying them.
-v2.1.69: setting a bomb down with standing A, facing left, right, up, down, up-right and up-left, was tested in a test setup only (state 592). Both patch files checked by applying them.
+v2.1.69, in RetroArch with the melonDS DS core: setting a bomb down with standing A, the way Link faces. Both patch files checked by applying them.
 v2.1.68: hold A to jump off a grappling hook post was tested in a test setup (state 587) and by the author in RetroArch
  (button combo works). The ice rub of v2.1.67 had a state table bug fixed here and is still not tested in the ice scene.
  Both patch files checked by applying them.
