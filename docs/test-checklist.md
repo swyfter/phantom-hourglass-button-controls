@@ -4,8 +4,8 @@ Pending RetroArch tests. Remove a section when its checks pass (and note the res
 
 All sections up to v2.1.78, v2.1.92-wip and v2.1.93-wip passed in RetroArch (user reports, 2026-10-23 and 2026-10-24).
 
-## v2.1.95-wip: merchant grid light and tab switch
-1. Load the wip ROM (v2.1.95-wip). Talk to the treasure merchant and pick ship parts or treasures.
+## v2.1.81 (v2.1.95-wip): merchant grid light and tab switch
+1. Load the playthrough ROM (v2.1.81). Talk to the treasure merchant and pick ship parts or treasures.
 2. On the Ship Parts tab, press Down to light a tile. Hold Right for about one second. Confirm the next tile lights.
 3. Hold Left for about one second. Confirm the tile to the left lights. Press A. Confirm the parts list opens.
 4. Press B to go back to the grid. Press Up until no tile lights. Press Left to open the Treasure tab.

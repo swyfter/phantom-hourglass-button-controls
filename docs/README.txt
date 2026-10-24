@@ -1,4 +1,4 @@
-The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.80
+The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.81
 ======================================================================
 Play with the D-pad and buttons instead of the stylus (formerly the "D-pad Patch").
 Based on the 2014 D-pad patch by griegamaster. Rewritten, relocated and bug-fixed.
@@ -9,12 +9,12 @@ Legend of Zelda, The - Phantom Hourglass (USA), game code AZEE, rev 0, untrimmed
   SHA-1  4c8f52dd719918bbcd46e73a8bae8628139c1b85
   CRC32  8b431c41
 Result:
-  SHA-1  a7227218c7711da0e3640f157cdf7bc2c29114ab
-  CRC32  904b5c25
+  SHA-1  52abbcf6388772c005fda7d1b0166012b8f1204b
+  CRC32  b78f0457
 
 Two equivalent patch files are included. Both refuse a wrong source ROM.
-  zelda_phantom_hourglass_buttons_v2.1.80.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
-  zelda_phantom_hourglass_buttons_v2.1.80.bps   - Floating IPS (flips), Rom Patcher JS, beat
+  zelda_phantom_hourglass_buttons_v2.1.81.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
+  zelda_phantom_hourglass_buttons_v2.1.81.bps   - Floating IPS (flips), Rom Patcher JS, beat
 Apply to a CLEAN ROM, not to one already patched with an earlier version.
 Emulator save states made with an older version carry that version's code: load your
 in-game save after updating instead.
@@ -174,6 +174,15 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top
 screen". These changes affect only the text. Full list of text fixes:
 https://github.com/swyfter/phantom-hourglass-button-controls/blob/main/docs/dialogue-typos.md
+
+What changed from v2.1.80 (in v2.1.81)
+--------------------------------------
+ - Treasure merchant, magic box and collection: the highlight stays on the new entry when
+   you hold Left or Right a little longer. Before, the highlight sometimes went out and A
+   did nothing.
+ - The same screens: a button pressed while the Treasure / Ship Parts tabs switch now waits
+   for the new tab. Before, Down right after a tab change held an entry that the game did
+   not see.
 
 What changed from v2.1.79 (in v2.1.80)
 --------------------------------------
@@ -794,6 +803,7 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
+v2.1.81: the treasure merchant grid (long Left / Right, keys during a tab switch) was tested in a test setup only. Both patch files checked by applying them.
 v2.1.80, in RetroArch with the melonDS DS core: A (OK) and B (Rewrite) on the letter screen at a red mailbox. Both patch files checked by applying them.
 v2.1.79, in RetroArch with the melonDS DS core: NPC choices and the save Yes/No picked with the stylus and with the D-pad. Both patch files checked by applying them.
 v2.1.78: the hammer (state 806) and a round boulder (state 807) were tested in a test setup only; square push blocks were not tested. Both patch files checked by applying them.
