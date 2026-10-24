@@ -11,7 +11,7 @@ This patch was first called the "D-pad Patch". It is based on the 2014 D-pad pat
 > swyfter chose the features, reported the bugs and played the game with each build to test it.
 > Most releases are tested by a human in RetroArch. Some are tested only with an automated emulator script first.
 
-**Latest version: [v2.1.79](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
+**Latest version: [v2.1.80](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
 
 ---
 
@@ -26,16 +26,16 @@ To check that your ROM is the correct one, compare its checksum:
 
 | | Before the patch | After the patch |
 |---|---|---|
-| CRC32 | `8b431c41` | `56b04042` |
-| SHA-1 | `4c8f52dd719918bbcd46e73a8bae8628139c1b85` | `33735b5fb6d9678051042ad758b262adfbbc19f7` |
+| CRC32 | `8b431c41` | `904b5c25` |
+| SHA-1 | `4c8f52dd719918bbcd46e73a8bae8628139c1b85` | `a7227218c7711da0e3640f157cdf7bc2c29114ab` |
 
 ---
 
 ## How to install (about 2 minutes)
 
 1. Download **one** patch file from the [latest release](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest):
-   - [`zelda_phantom_hourglass_buttons_v2.1.79.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.79/zelda_phantom_hourglass_buttons_v2.1.79.xdelta), or
-   - [`zelda_phantom_hourglass_buttons_v2.1.79.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.79/zelda_phantom_hourglass_buttons_v2.1.79.bps)
+   - [`zelda_phantom_hourglass_buttons_v2.1.80.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.80/zelda_phantom_hourglass_buttons_v2.1.80.xdelta), or
+   - [`zelda_phantom_hourglass_buttons_v2.1.80.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.80/zelda_phantom_hourglass_buttons_v2.1.80.bps)
 2. Open [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) in your browser. It works offline and does not upload your ROM.
 3. Select your **clean** (unpatched) ROM, then select the patch file.
 4. Click **Apply patch** and save the new `.nds` file.
@@ -84,7 +84,7 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 
 ## What still needs the stylus
 
-- Drawing: routes at sea, boomerang and bombchu paths, map notes and Cyclone Slate symbols.
+- Drawing: routes at sea, boomerang and bombchu paths, map notes, Cyclone Slate symbols and the signature on a letter.
 - Aiming the cannon at a point, and turning the camera at sea.
 - Microphone spots ("talk into the mic"). In RetroArch with melonDS DS, set **Core Options > Audio > Microphone Input Mode** to **Blow**. Then hold the Microphone button (L3 by default) at the prompt.
 

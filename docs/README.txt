@@ -1,4 +1,4 @@
-The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.79
+The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.80
 ======================================================================
 Play with the D-pad and buttons instead of the stylus (formerly the "D-pad Patch").
 Based on the 2014 D-pad patch by griegamaster. Rewritten, relocated and bug-fixed.
@@ -9,12 +9,12 @@ Legend of Zelda, The - Phantom Hourglass (USA), game code AZEE, rev 0, untrimmed
   SHA-1  4c8f52dd719918bbcd46e73a8bae8628139c1b85
   CRC32  8b431c41
 Result:
-  SHA-1  33735b5fb6d9678051042ad758b262adfbbc19f7
-  CRC32  56b04042
+  SHA-1  a7227218c7711da0e3640f157cdf7bc2c29114ab
+  CRC32  904b5c25
 
 Two equivalent patch files are included. Both refuse a wrong source ROM.
-  zelda_phantom_hourglass_buttons_v2.1.79.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
-  zelda_phantom_hourglass_buttons_v2.1.79.bps   - Floating IPS (flips), Rom Patcher JS, beat
+  zelda_phantom_hourglass_buttons_v2.1.80.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
+  zelda_phantom_hourglass_buttons_v2.1.80.bps   - Floating IPS (flips), Rom Patcher JS, beat
 Apply to a CLEAN ROM, not to one already patched with an earlier version.
 Emulator save states made with an older version carry that version's code: load your
 in-game save after updating instead.
@@ -51,6 +51,7 @@ Controls
                      wall): press the Back arrow
   B                  Bombchu map (the screen that swaps in to draw its path): press the Back arrow
   A / B              Bombchu map, once a path is drawn: A = GO!, B = CANCEL (draw the path with the stylus)
+  A / B              Letter at a red mailbox: A = OK, B = Rewrite (write the signature with the stylus)
   D-pad Left/Right   Item bar: highlight the next item or potion (empty places are skipped)
   A                  Item bar: equip the highlighted item (or drink the potion: Yes / No)
   B or R             Item bar: close it without changing the item
@@ -173,6 +174,11 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top
 screen". These changes affect only the text. Full list of text fixes:
 https://github.com/swyfter/phantom-hourglass-button-controls/blob/main/docs/dialogue-typos.md
+
+What changed from v2.1.79 (in v2.1.80)
+--------------------------------------
+ - Letter at a red mailbox: A presses OK and B presses Rewrite. Before, A and B did nothing
+   there. The game shows OK only after you write a signature with the stylus.
 
 What changed from v2.1.78 (in v2.1.79)
 --------------------------------------
@@ -788,6 +794,7 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
+v2.1.80, in RetroArch with the melonDS DS core: A (OK) and B (Rewrite) on the letter screen at a red mailbox. Both patch files checked by applying them.
 v2.1.79, in RetroArch with the melonDS DS core: NPC choices and the save Yes/No picked with the stylus and with the D-pad. Both patch files checked by applying them.
 v2.1.78: the hammer (state 806) and a round boulder (state 807) were tested in a test setup only; square push blocks were not tested. Both patch files checked by applying them.
 v2.1.77: A on bare ground in all 8 directions was tested in a test setup only (one straight swing each). Both patch files checked by applying them.
