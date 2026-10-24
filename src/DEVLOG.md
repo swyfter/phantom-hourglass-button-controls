@@ -13,10 +13,11 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.79 (builds\v2.1.79\, = root playthrough ROM, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again). Root wip: none. Next wip: v2.1.93-wip.
+- Latest release: v2.1.80 (builds\v2.1.80\, = root playthrough ROM, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite). Root wip: none. Next wip: v2.1.94-wip.
+- Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
-- Code space: CODE_RESERVE 0x4700 since v2.1.91-wip, 103 bytes free (v2.1.92-wip).
+- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 203 bytes free (was 0x4700 since v2.1.91-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
@@ -69,6 +70,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
+| v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
 | v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block not tested |
 
@@ -102,6 +104,22 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.93-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "both buttons work great"; released as v2.1.80 the same day on the user's request (builds\v2.1.80\: bps 28,342, xdelta 30,321, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): letter screen on buttons (user request, user state 825: a red mailbox,
+  "sign" a letter in an ink box, OK and Rewrite buttons). Design approved by the user; the user then dropped the planned
+  auto-signature (Y / A on an empty box wrote "Link" via fg_x / fg_y strokes) to save code space.
+  ROM "Phantom Hourglass US - Button Controls v2.1.93-wip.nds", SHA-1 a7227218c7711da0e3640f157cdf7bc2c29114ab,
+  CRC32 904b5c25; based on v2.1.92-wip; source known2.1.93-wip_dpad.s; dpad.bin 18229 bytes, CODE_RESERVE 0x4800
+  (was 0x4700), 203 bytes free:
+  - Found (rig, state 825 = v2.1.91-wip code): OK = touch button id 0x90, Rewrite = 0x91 (layout cell 0x47, elements
+    0 / 1, centres (69, 177) / (185, 177)). Mode 1, keys not gated. The game hides OK (no update) while the box is
+    empty. Two stylus samples in a row are joined by a line (a stroke).
+  - Old behaviour: A / B on this screen hit the text box rule (ch_seen set): a tap at (128, 168), which does nothing.
+  - Fix: fs_btn stamps ids SIGN_ID / + 1 into sg_tab; new sig_ctl (after goron_ctl, so before the text box rule):
+    while Rewrite is live, A / B are hidden from the game; B taps Rewrite, A taps OK if OK is live.
+  - Rig (state 825 hot-linked at 0x21d2000, old / new symbols re-aimed, one-shot cache flush stub, scratchpad hot.py):
+    A with ink = OK ("Wooo! Thanks much!"); B = box cleared, OK gone; A on the empty box = nothing; stylus strokes
+    then A = OK.
 
 v2.1.92-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all tests pass!" (NPC choices by stylus and D-pad, Save No); released as v2.1.79 the same day on the user's request (builds\v2.1.79\: bps 28,262, xdelta 30,241, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): a stylus tap picks a dialogue choice again.
   ROM "Phantom Hourglass US - Button Controls v2.1.92-wip.nds", SHA-1 33735b5fb6d9678051042ad758b262adfbbc19f7,

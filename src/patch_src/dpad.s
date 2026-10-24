@@ -159,6 +159,7 @@
         .equ GORON_FORM, 0x11           @ the swap button's byte: 1 = playing Gongoron (user states 518 / 522)
         .equ GORON_ID, 0x1c            @ the Goron Temple's Link / Gongoron swap button (top centre,
         .equ GORON_CELL, 0x30           @   layout cell GORON_CELL: the id alone is also used elsewhere)
+        .equ SIGN_ID, 0x90              @ letter screen (sign a letter): OK, SIGN_ID + 1 = Rewrite
         .equ SC_MODE, 0x2c              @ Sea Chart screen (four seas; from the menu bar)
         .equ SC_ID0, 0x1f               @   its sea buttons, ids SW 0x1f, SE, NW, NE 0x22; only owned
                                         @   seas are updated (sc_tab, by place: NW, NE, SW, SE)
@@ -532,6 +533,7 @@ pad_update:
         bl      fl_ctl                  @ Up / Down = a dungeon map's floor up / down
         bl      skip_ctl                @ Start = a cutscene's Skip, once Start showed it
         bl      goron_ctl               @ L = the Goron Temple's Link / Gongoron swap
+        bl      sig_ctl                 @ letter screen: A = OK, B = Rewrite
 10:
         @ Text box up (seen by dialog_advance within the last pad reads) but msg_guard still
         @ at MAX: tap_front, which counts it down in the same frame, isn't running to tap it.
@@ -3098,7 +3100,12 @@ fs_btn:
         ldr     r12, =CELL_ANCHOR
         blx     r12
         b       8f
-5:      cmp     r4, #SY_ID_CUST         @ the shipyard menu's Customize button: sy_tab
+5:      sub     r3, r4, #SIGN_ID        @ the letter screen's OK / Rewrite: sg_tab
+        cmp     r3, #2
+        ldrlo   r4, =sg_tab
+        addlo   r4, r4, r3, lsl #2
+        blo     1f
+        cmp     r4, #SY_ID_CUST         @ the shipyard menu's Customize button: sy_tab
         bne     2f
         ldr     r3, =OVL_SLOT
         ldr     r3, [r3]
@@ -3457,6 +3464,41 @@ mm_ctl:
         popne   {r4, pc}
         ldrb    r0, [r4]
         ldrb    r1, [r4, #1]
+        bl      menu_tap_at
+        pop     {r4, pc}
+
+@ The letter screen (sign a letter: ink box, OK and Rewrite touch buttons, ids SIGN_ID and
+@ SIGN_ID + 1; fs_btn records them in sg_tab). A = OK (the game shows it only once the box
+@ has ink), B = Rewrite. The signature itself stays stylus only. While Rewrite is live, A / B
+@ are hidden from the game (before the text box rule, which would tap the box).
+sig_ctl:
+        push    {r4, lr}
+        ldr     r4, =sg_tab
+        add     r0, r4, #4              @ Rewrite live = the screen is up
+        bl      tab_live
+        cmp     r0, #0
+        popeq   {r4, pc}
+        ldr     r2, =PAD
+        ldrh    r3, [r2, #2]            @ r3 = new presses
+        ldrh    r1, [r2]
+        bic     r1, r1, #(KEY_A | KEY_B)
+        strh    r1, [r2]
+        bic     r1, r3, #(KEY_A | KEY_B)
+        strh    r1, [r2, #2]
+        ldr     r1, =menu_tap
+        ldrb    r1, [r1]
+        cmp     r1, #0
+        popne   {r4, pc}
+        tst     r3, #KEY_B              @ B: Rewrite (r0)
+        bne     1f
+        tst     r3, #KEY_A
+        popeq   {r4, pc}
+        mov     r0, r4                  @ A: OK, if live
+        bl      tab_live
+        cmp     r0, #0
+        popeq   {r4, pc}
+1:      ldrb    r1, [r0, #1]
+        ldrb    r0, [r0]
         bl      menu_tap_at
         pop     {r4, pc}
 
@@ -5582,6 +5624,9 @@ gr_tab:
         .byte   0, 0, 0, 0              @ the Goron Temple's swap button: the same
 sy_tab:
         .byte   0, 0, 0, 0              @ shipyard menu's Customize button: the same
+sg_tab:
+        .byte   0, 0, 0, 0              @ the letter screen's OK: x, y, fs_frame when last updated, -
+        .byte   0, 0, 0, 0              @   and its Rewrite: the same
 mm_tab:
         .byte   0, 0, 0, 0              @ a map's Memo button: x, y, fs_frame, tool in use
         .byte   0, 0, 0, 0              @   and its Erase button: x, y, fs_frame, -

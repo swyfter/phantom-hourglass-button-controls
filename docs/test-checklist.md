@@ -2,7 +2,7 @@
 
 Pending RetroArch tests. Remove a section when its checks pass (and note the result in src\DEVLOG.md).
 
-All sections up to v2.1.78 and v2.1.92-wip passed in RetroArch (user reports, 2026-10-23 and 2026-10-24).
+All sections up to v2.1.78, v2.1.92-wip and v2.1.93-wip passed in RetroArch (user reports, 2026-10-23 and 2026-10-24).
 
 ## Still open
 1. v2.1.69 bomb set-down: stand still with a bomb held and press A. Confirm Link sets it down the way he faces.
