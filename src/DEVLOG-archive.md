@@ -1,9 +1,9 @@
-# Phantom Hourglass Button Controls patch - handoff archive
+# Phantom Hourglass Button Controls patch - development log archive
 
-Moved out of src\HANDOFF.md on 2026-10-21. Nothing here was changed. "See above" / "see below" in an
-entry can point to a part that is now in src\HANDOFF.md.
+Moved out of src\DEVLOG.md on 2026-10-21. Nothing here was changed. "See above" / "see below" in an
+entry can point to a part that is now in src\DEVLOG.md.
 
-## Old State section (to 2026-10-21; replaced by the release table in HANDOFF.md)
+## Old State section (to 2026-10-21; replaced by the release table in DEVLOG.md)
 
 # Phantom Hourglass D-pad patch - handoff (2026-10-16)
 - Latest release: v2.1.42 (builds\v2.1.42\, = root playthrough ROM, 2026-10-19; = v2.1.45-wip, SHA-1
@@ -1905,7 +1905,7 @@ v2.1.57-wip (2026-10-19, rig tested; user test due): magic box screen on buttons
   pass; statue A (v2.1.54) all pass; sword clash (v2.1.56) still due (waiting for Jolene). Dungeon map floors
   (v2.1.53) FAIL: Up / Down close the map. User state 373 = dungeon map with several floors (root ROM v2.1.48).
 
-## Finished future feature requests (moved from HANDOFF.md)
+## Finished future feature requests (moved from DEVLOG.md)
 
 - (v2.1.67-wip, see above) Cutscene Skip on Start (user, 2026-10-21): in a scene where Start shows "Skip >>", a second Start taps Skip. No
   other button may skip. Rig research (2026-10-21, no build; root ROM = v2.1.56, NO battery save = new file):

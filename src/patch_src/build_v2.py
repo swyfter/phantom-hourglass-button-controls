@@ -17,7 +17,7 @@ CLEAN_SHA1 = '4c8f52dd719918bbcd46e73a8bae8628139c1b85'
 DEBUG = os.environ.get('DPAD_DEBUG') == '1'   # diagnostic build with the RAM tap log (see ralog.py)
 OUT = 'dpad_debug' if DEBUG else 'dpad'        # link.py output names (OUT.bin, OUT.sym, ...)
 CODE_ADDR = 0x0219B120          # link address = old main-arena start (end of the largest overlay)
-CODE_RESERVE = 0x4500     # 16.5 KB reserved (history: src/HANDOFF.md, "Build scripts")
+CODE_RESERVE = 0x4500     # 16.5 KB reserved (history: src/DEVLOG.md, "Build scripts")
 if DEBUG:
     CODE_RESERVE += 0x200       # diagnostic build only: logs don't fit
 

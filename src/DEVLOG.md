@@ -1,4 +1,4 @@
-# Phantom Hourglass Button Controls patch - handoff
+# Phantom Hourglass Button Controls patch - development log
 
 ## State (2026-10-21)
 - Latest release: v2.1.68 (builds\v2.1.68\, = root playthrough ROM, = v2.1.80-wip; released 2026-10-22 after the user's RetroArch test: "button combo works").
@@ -21,7 +21,7 @@
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
 - Pending user tests: docs\test-checklist.md (empty since 2026-10-23: the user passed every section up to v2.1.74 in RetroArch; only the v2.1.69 bomb set-down is still untested).
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
-- Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\HANDOFF-archive.md.
+- Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
 Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = only the lr.py test setup):
 
@@ -76,7 +76,7 @@ Layout (user's, 2026-10-17):
 - builds\   finished wip builds, released ROMs, and release folders (builds\vX.Y.Z\: bps, xdelta, README, src zip).
 - docs\     README.txt (current release README), test-checklist.md (pending user tests), dialogue-en.txt and
            dialogue-typos.md (the v2.1.55 text fixes).
-- src\      tools, patch_src, this file, HANDOFF-archive.md (older history).
+- src\      tools, patch_src, this file, DEVLOG-archive.md (older history).
 Saves (user rule, 2026-10-18): NEVER copy a wip's .srm over the playthrough .srm ("Legend of Zelda, The -
 Phantom Hourglass.srm"), not even on release, and don't offer it. Copying the playthrough .srm to a new wip name is fine.
 When a wip is superseded, move it to builds\. On release: builds\vX.Y.Z\, root playthrough ROM, docs\README.txt.
@@ -90,7 +90,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   python src\patch_src\build_v2.py ".backup\Legend of Zelda, The - Phantom Hourglass.nds" out.nds ; python src\verify.py clean.nds out.nds
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
-## Recent wip entries (v2.1.58-wip and later; older ones in src\HANDOFF-archive.md)
+## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
 v2.1.88-wip (2026-10-23, rig tested by data poke only; released as v2.1.75 on 2026-10-24 (builds\v2.1.75\: bps, xdelta, README, source zip rebuilt to the same SHA-1); ROM in builds\;
   SHA-1 c49f77eab798667024d85cafe516eaa75dfb79c7, CRC32 8eccd90c, 255 bytes free of 0x4500): A below a pedestal places the stone.
@@ -669,7 +669,7 @@ v2.1.68-wip (2026-10-21, rig tested; user tested: all checks passed; released as
 - User confirmed (2026-10-17): Blow + hold L3 passes the "talk into the mic" spot. No patch change needed.
   For a later mic spot that Blow can't pass, try Noise, then get a state there and find the game's mic level read.
 
-## Future feature requests (user, 2026-10-17) - open items only (finished ones in src\HANDOFF-archive.md)
+## Future feature requests (user, 2026-10-17) - open items only (finished ones in src\DEVLOG-archive.md)
 - (bow part: v2.1.61-wip, see above; boomerang part not started) Hold A with an item readied (user, 2026-10-20, on v2.1.48): today A = it_use = the use tap at once. New: a quick
   A press keeps that; a held A does a per-item action:
   1. Bow: while A is held, draw the aim line out to the maximum the game allows; the arrow fires on the A release.

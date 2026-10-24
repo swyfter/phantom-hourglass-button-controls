@@ -1,4 +1,4 @@
-@ Zelda: Phantom Hourglass (US) - D-pad controls, v2.1.x (the v2 rewrite; version history in src/HANDOFF.md)
+@ Zelda: Phantom Hourglass (US) - D-pad controls, v2.1.x (the v2 rewrite; version history in src/DEVLOG.md)
 @ Based on the 2014 D-pad patch by griegamaster; rewritten and relocated.
 @ All routines are ARM mode and are reached via BL from hooks in ARM9 / overlay 0.
 @ Loaded at boot by an extra ARM9 autoload entry into RAM reserved above the overlays.
