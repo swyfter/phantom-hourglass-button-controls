@@ -1,4 +1,4 @@
-The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.83
+The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.84
 ======================================================================
 Play with the D-pad and buttons instead of the stylus (formerly the "D-pad Patch").
 Based on the 2014 D-pad patch by griegamaster. Rewritten, relocated and bug-fixed.
@@ -9,12 +9,12 @@ Legend of Zelda, The - Phantom Hourglass (USA), game code AZEE, rev 0, untrimmed
   SHA-1  4c8f52dd719918bbcd46e73a8bae8628139c1b85
   CRC32  8b431c41
 Result:
-  SHA-1  7aaead517dfc9a9021177cb485f7fe101079a9f8
-  CRC32  a7a26942
+  SHA-1  8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e
+  CRC32  5b02447a
 
 Two equivalent patch files are included. Both refuse a wrong source ROM.
-  zelda_phantom_hourglass_buttons_v2.1.83.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
-  zelda_phantom_hourglass_buttons_v2.1.83.bps   - Floating IPS (flips), Rom Patcher JS, beat
+  zelda_phantom_hourglass_buttons_v2.1.84.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
+  zelda_phantom_hourglass_buttons_v2.1.84.bps   - Floating IPS (flips), Rom Patcher JS, beat
 Apply to a CLEAN ROM, not to one already patched with an earlier version.
 Emulator save states made with an older version carry that version's code: load your
 in-game save after updating instead.
@@ -176,6 +176,13 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top
 screen". These changes affect only the text. Full list of text fixes:
 https://github.com/swyfter/phantom-hourglass-button-controls/blob/main/docs/dialogue-typos.md
+
+What changed from v2.1.83 (in v2.1.84)
+--------------------------------------
+ - Final boss fight, sword clash ("RUB!" while the swords are locked): hold A now wins the
+   clash. In v2.1.83 the rub did nothing here, because the game reads the buttons every
+   frame in this fight and the rub changed side on every read. Each side of the rub now
+   lasts 2 frames, however often the game reads the buttons.
 
 What changed from v2.1.82 (in v2.1.83)
 --------------------------------------
@@ -816,6 +823,7 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
+v2.1.84: hold A in the final boss sword clash (state 944) was tested in a test setup only: Link won the clash; without A he lost it. Both patch files checked by applying them.
 v2.1.83: L opening and closing the hourglass drawing frame in the final boss fight (states 938 / 940) was tested in a test setup only. Both patch files checked by applying them.
 v2.1.82, in RetroArch with the melonDS DS core: the bombchu map GO! (A), CANCEL (B) and Back (B) on Mercay Island. Both patch files checked by applying them.
 v2.1.81, in RetroArch with the melonDS DS core: the treasure merchant grid (long Left / Right, keys during a tab switch). Both patch files checked by applying them.
