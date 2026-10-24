@@ -13,8 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.76 (builds\v2.1.76\, = root playthrough ROM, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
-- Root wip: v2.1.90-wip (2026-10-24, A swings straight; rig tested on user state 1 by hot-link; user test due). Next wip: v2.1.91-wip.
+- Latest release: v2.1.77 (builds\v2.1.77\, = root playthrough ROM, = v2.1.90-wip, released 2026-10-24 on the user's request before a RetroArch test; A swings straight). Root wip: none. Next wip: v2.1.91-wip.
+- Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
 - Previous release: v2.1.73 (builds\v2.1.73\, = v2.1.86-wip; full line at once, could not catch a post beside Link: replaced by v2.1.74).
@@ -65,6 +65,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.74 | v2.1.87-wip | 2026-10-22 | a6fe4bccaa152c32d487c4b52f760fd4eded8d2b | hook line starts at Link, full in 8 reads (HK_START 0, HK_STEP 32) | yes (RetroArch, 2026-10-23) |
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
+| v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | rig; released on the user's request, user tests it with two other fixes |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
 
@@ -97,8 +98,10 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.90-wip (2026-10-24, rig tested; user test due; ROM in root, SHA-1 0e0bc014d2f026794304066cb6190b740110dc74; based on v2.1.76;
-  source known\v2.1.90-wip_dpad.s; committed 9dc2a1c; user test due together with two other fixes):
+v2.1.90-wip (2026-10-24, rig tested; user test due together with two other fixes; released as v2.1.77 the same day on the user's
+  request (builds\v2.1.77\: bps 27,930, xdelta 29,909, README, source zip rebuilt to the same SHA-1, xdelta re-applied with
+  src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; SHA-1
+  0e0bc014d2f026794304066cb6190b740110dc74, CRC32 898a0164; based on v2.1.76; source known\v2.1.90-wip_dpad.s; committed 9dc2a1c):
   - User report (state 1, v2.1.89-wip, a dungeon 1F, two tablets): standing facing left or down, A turned Link slightly and
     swung the sword diagonally.
   - Cause (rig log): A on bare ground sends the probe taps; the first tap ~18-20px from Link on the ground (left/right:
