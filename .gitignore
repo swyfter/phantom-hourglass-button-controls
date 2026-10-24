@@ -15,6 +15,9 @@ src/ralog_block.txt
 # Extracted game script (copyrighted)
 docs/dialogue-en.txt
 
+# Old builds and release files - patches are attached to GitHub Releases instead
+builds/
+
 # Python cache (holds local paths)
 __pycache__/
 *.pyc
