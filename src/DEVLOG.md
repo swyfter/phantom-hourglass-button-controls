@@ -26,7 +26,7 @@
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
 - Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: docs\test-checklist.md (the user passed every section up to v2.1.78 in RetroArch; still untested: the v2.1.69 bomb set-down and v2.1.78 with a square push block).
+- Pending user tests: docs\test-checklist.md (the user passed every section up to v2.1.80 in RetroArch, including the v2.1.78 square push block and the v2.1.75 pedestal stones on 2026-10-24; still untested: the v2.1.69 bomb set-down and v2.1.81).
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -68,13 +68,13 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.72 | v2.1.85-wip | 2026-10-22 | 0d4bdabc8a175a8e975d15fc4a2359860ca0a4f9 | hold A / B rolls Gongoron in the rupee minigame (CODE_RESERVE 0x4400, 35 bytes free) | yes (RetroArch, 2026-10-23) |
 | v2.1.73 | v2.1.86-wip | 2026-10-22 | 39941546bbc536ffb8448ba1b16d4183acf01809 | hook hold A draws the line at full length at once (HK_START 255); could not catch a post beside Link | not tested; released on the user's request |
 | v2.1.74 | v2.1.87-wip | 2026-10-22 | a6fe4bccaa152c32d487c4b52f760fd4eded8d2b | hook line starts at Link, full in 8 reads (HK_START 0, HK_STEP 32) | yes (RetroArch, 2026-10-23) |
-| v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
+| v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | yes (RetroArch, 2026-10-24: "placing stone shapes in slots" passes); released on the user's request before the test |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
 | v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
 | v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | rig; released on the user's request |
 | v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
-| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block not tested |
+| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
 
