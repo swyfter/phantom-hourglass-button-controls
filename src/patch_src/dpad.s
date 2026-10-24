@@ -1895,6 +1895,9 @@ cl_mquit:                               @ (r2, r3 = Quit / back arrow)
         bne     4b
         b       ctl_done
 cl_gridv:
+        ldrh    r1, [r2]                @ held Left / Right: the game's grid takes no new press
+        bic     r1, r1, #(KEY_LEFT | KEY_RIGHT) @   (a slot move with them still held lost its
+        strh    r1, [r2]                @   light: user state 828; Up / Down do not block it)
         mvn     r3, #0
         strb    r3, [r4, #CL_TGT]        @ no parts-list row to bring up
         mov     r3, #0

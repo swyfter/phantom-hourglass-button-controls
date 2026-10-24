@@ -13,11 +13,11 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.80 (builds\v2.1.80\, = root playthrough ROM, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite). Root wip: none. Next wip: v2.1.94-wip.
+- Latest release: v2.1.80 (builds\v2.1.80\, = root playthrough ROM, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite). Root wip: v2.1.94-wip (merchant grid light; rig tested, user test due). Next wip: v2.1.95-wip.
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
-- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 203 bytes free (was 0x4700 since v2.1.91-wip).
+- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 191 bytes free since v2.1.94-wip (was 0x4700 since v2.1.91-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
@@ -104,6 +104,27 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.94-wip (2026-10-24, rig tested; user test due): the merchant grid keeps its light after a long Left / Right press
+  (user report, user state 828: treasure merchant, Ship Parts tab, "sometimes the dpad cursor disappears from the tile
+  that should be selected when moving from left or right", both tabs).
+  ROM "Phantom Hourglass US - Button Controls v2.1.94-wip.nds", SHA-1 8634c92465eba4e21dbc4024f4ed445e83295541,
+  CRC32 05f7955a; based on v2.1.93-wip; source known/v2.1.94-wip_dpad.s; dpad.bin 18241 bytes, CODE_RESERVE 0x4800,
+  191 bytes free:
+  - Found (rig, state 828 = v2.1.93-wip code): our stylus held slot 5 (ch_tap CH_HOLD, settled), but the game's slot
+    had no press (slot object +0x59 / +0x5a = 0; both are 1 while the game sees a press there). A lift there opened
+    nothing. The game's grid takes no new press while Left or Right is held in PAD +0 (Up / Down do not block it).
+    coll_ctl hid only the new presses (PAD +2), so a slot move (CH_DRAG, CH_RELEASE, CH_HOLD: about 11 frames) with
+    Left / Right still held lost the press at the new slot. Rig: Left / Right held 2-6 frames = pressed, 8+ frames
+    (about 0.13 s, a normal press) = lost every time.
+  - Fix: cl_gridv clears held Left / Right in PAD +0 (all grid tabs: collection, shipyard, merchant, magic box).
+    pad_update takes its edges from held_real, so the next read does not change.
+  - Rig (state 828 hot-linked at 0x21d2000, old / new symbols re-aimed, cache flush stub, scratchpad hot.py): Ship
+    Parts Left / Right held 2-40 frames = pressed; Treasure tab Right / Down / Left / Up held 4 / 12 / 24 frames =
+    pressed, light shown. Random bursts (1-4 D-pad keys, each held 1-12 frames, gaps 0-10 frames), then a check
+    of the game's press at the slot our stylus holds: v2.1.93-wip code 118 of 431 lost, v2.1.94-wip 1 of 435.
+  - Still open (separate issue, not fixed): that 1 loss is a tab switch race. Right taps the Ship Parts tab, and
+    Down within 12 frames (before COLL_PAGE changes) holds a slot on the old tab; the new tab then has no press.
 
 v2.1.93-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "both buttons work great"; released as v2.1.80 the same day on the user's request (builds\v2.1.80\: bps 28,342, xdelta 30,321, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): letter screen on buttons (user request, user state 825: a red mailbox,
   "sign" a letter in an ink box, OK and Rewrite buttons). Design approved by the user; the user then dropped the planned

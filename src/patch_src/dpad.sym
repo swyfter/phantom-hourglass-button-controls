@@ -2,9 +2,9 @@
 0219b170 T pad_update
 0219b6cc T menu_touch
 0219bae0 T smenu_btn
-0219d514 T fs_btn
-0219ec08 T dpad_move
-0219ee88 T tap_front
-0219f558 T roll_check
-0219f588 T slash_check
-0219f5c4 T spin_check
+0219d520 T fs_btn
+0219ec14 T dpad_move
+0219ee94 T tap_front
+0219f564 T roll_check
+0219f594 T slash_check
+0219f5d0 T spin_check
