@@ -13,7 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.81 (builds\v2.1.81\, = root playthrough ROM, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; merchant grid light kept on long Left / Right, keys wait during a tab switch). Root wip: v2.1.97-wip (bombchu GO! / CANCEL, entry below). Next wip: v2.1.98-wip.
+- Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: none. Next wip: v2.1.98-wip.
+- Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
@@ -73,6 +74,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
 | v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
 | v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | rig; released on the user's request |
+| v2.1.82 | v2.1.97-wip | 2026-10-24 | de2b6e539a6d9a2fc9338f1fc8b554a0140580f3 | bombchu map GO! / CANCEL: route object found in the list at 0x020e9c28 (was a fixed distance below MAP_OBJ) | yes (RetroArch, 2026-10-24: "all buttons work") |
 | v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |
 
@@ -107,7 +109,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.97-wip (2026-10-24, rig tested; user test due; root "Phantom Hourglass US - Button Controls v2.1.97-wip.nds", 87 bytes free of 0x4800):
+v2.1.97-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all buttons work"; released as v2.1.82 the same day on the user's request (builds\v2.1.82\: bps 28,442, xdelta 30,420, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept, 87 bytes free of 0x4800):
   bombchu route panel, fix for v2.1.96-wip: user state "v2.1.96-wip.state2" (Mercay Island, route drawn): no button worked.
   - Cause: there the route object (0x021d0dd0) is 0xccf8 below [MAP_OBJ] (0x021ddac8, whose first word is a heap address,
     so MAP_OBJ does not hold the map screen object here). No fixed distance to MAP_OBJ exists.

@@ -1,4 +1,4 @@
-The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.81
+The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.82
 ======================================================================
 Play with the D-pad and buttons instead of the stylus (formerly the "D-pad Patch").
 Based on the 2014 D-pad patch by griegamaster. Rewritten, relocated and bug-fixed.
@@ -9,12 +9,12 @@ Legend of Zelda, The - Phantom Hourglass (USA), game code AZEE, rev 0, untrimmed
   SHA-1  4c8f52dd719918bbcd46e73a8bae8628139c1b85
   CRC32  8b431c41
 Result:
-  SHA-1  52abbcf6388772c005fda7d1b0166012b8f1204b
-  CRC32  b78f0457
+  SHA-1  de2b6e539a6d9a2fc9338f1fc8b554a0140580f3
+  CRC32  e0267fc6
 
 Two equivalent patch files are included. Both refuse a wrong source ROM.
-  zelda_phantom_hourglass_buttons_v2.1.81.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
-  zelda_phantom_hourglass_buttons_v2.1.81.bps   - Floating IPS (flips), Rom Patcher JS, beat
+  zelda_phantom_hourglass_buttons_v2.1.82.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
+  zelda_phantom_hourglass_buttons_v2.1.82.bps   - Floating IPS (flips), Rom Patcher JS, beat
 Apply to a CLEAN ROM, not to one already patched with an earlier version.
 Emulator save states made with an older version carry that version's code: load your
 in-game save after updating instead.
@@ -174,6 +174,11 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top
 screen". These changes affect only the text. Full list of text fixes:
 https://github.com/swyfter/phantom-hourglass-button-controls/blob/main/docs/dialogue-typos.md
+
+What changed from v2.1.81 (in v2.1.82)
+--------------------------------------
+ - Bombchu map: A (GO!) and B (CANCEL) work again after you draw a path. Before, in some
+   places (for example on Mercay Island) neither button did anything.
 
 What changed from v2.1.80 (in v2.1.81)
 --------------------------------------
@@ -803,6 +808,7 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
+v2.1.82, in RetroArch with the melonDS DS core: the bombchu map GO! (A), CANCEL (B) and Back (B) on Mercay Island. Both patch files checked by applying them.
 v2.1.81: the treasure merchant grid (long Left / Right, keys during a tab switch) was tested in a test setup only. Both patch files checked by applying them.
 v2.1.80, in RetroArch with the melonDS DS core: A (OK) and B (Rewrite) on the letter screen at a red mailbox. Both patch files checked by applying them.
 v2.1.79, in RetroArch with the melonDS DS core: NPC choices and the save Yes/No picked with the stylus and with the D-pad. Both patch files checked by applying them.
