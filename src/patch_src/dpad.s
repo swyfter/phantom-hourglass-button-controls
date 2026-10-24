@@ -859,19 +859,26 @@ menu_touch:
         ldrh    r0, [r1, #4]            @ the real stylus down while the menu bar (or the Sea
         cmp     r0, #0                  @   Chart screen) holds ours: ours lets go and the screen
         beq     3f                      @   is the stylus's until it closes (mb_screen /
-        ldr     r0, =mb_sel             @   sc_screen, as after A). This update the real sample
-        ldrb    r1, [r0]                @   passes (a slide from ours: cancels its button), the
+        ldr     r0, =msgwin             @   sc_screen, as after A). This update the real sample
+        ldrb    r1, [r0, #MW_AUTO]      @   passes (a slide from ours: cancels its button), the
         cmp     r1, #0                  @   next one is forced up (CH_LIFT), so the real press is
-        ldreq   r0, =sc_sel             @   a new press there (rig: taps of 10+ frames on another
-                                        @   sea, 6+ on the bar or on the held button)
+        beq     4f                      @   a new press there (rig: taps of 10+ frames on another
+        cmp     r12, #CH_LIFT           @   sea, 6+ on the bar or on the held button). Dialogue
+        bne     5f                      @   choices (MW_AUTO set) the same; choice_ctl presses
+        b       3f                      @   again only on Up / Down (MW_AUTO stays set)
+4:      ldr     r0, =mb_sel
+        ldrb    r1, [r0]
+        cmp     r1, #0
+        ldreq   r0, =sc_sel
         ldrbeq  r1, [r0]
         cmpeq   r1, #0
         beq     3f
         mov     r1, #1
         strb    r1, [r0, #MB_SCREEN]
-        strb    r1, [r3, #CT_LEFT]      @ (1 = one update forced up)
         mov     r1, #0
         strb    r1, [r0]
+5:      mov     r1, #1
+        strb    r1, [r3, #CT_LEFT]      @ (1 = one update forced up)
         mov     r1, #CH_LIFT
         strb    r1, [r3]
         mov     r12, #CH_OFF
