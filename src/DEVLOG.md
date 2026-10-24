@@ -13,7 +13,7 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: v2.1.98-wip (L taps the final fight's Phantom Hourglass button; user test due). Next wip: v2.1.99-wip.
+- Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: v2.1.99-wip (L opens and closes the final fight's hourglass drawing frame; user test due; v2.1.98-wip is in builds\). Next wip: v2.1.100-wip.
 - Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
@@ -108,6 +108,21 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.99-wip (2026-10-24, rig tested; user test due): L also closes the hourglass drawing frame (user request:
+  "L button should also close the drawing frame").
+  - Found (rig, states 938 / 940): a stylus tap on the hourglass icon (128, 180) closes the open frame. While the frame
+    is open the button is not updated (fs_btn never sees it), so gr_tab goes stale and v2.1.98's L did nothing.
+  - Frame flag: overlay 29 (the final fight; loaded at 0x0216d600 in both states) bss byte HG_OPEN 0x0217a460 =
+    1 open, 0 closed (RAM diff of 4 open and 5 closed snapshots; the words after it hold the stroke points).
+    Overlay check: word HG_SIG_AT 0x0216d604 = HG_SIG 0xe59f1040 (no other overlay has that word there).
+  - Code: goron_ctl: gr_tab stale + overlay 29 + HG_OPEN = 1: a new L taps hg_xy (128, 180). dpad.bin 18413 bytes,
+    19 bytes free of 0x4800.
+  Rig (new dpad.bin poked into the states, 5 BL hooks re-aimed): state 938: L = open, L = closed, L = open again;
+  state 940 (open): L = closed.
+  Not tested: real RetroArch; L while time is stopped; L in other scenes (the overlay check should keep it out).
+  ROM: "Phantom Hourglass US - Button Controls v2.1.99-wip.nds" (root), SHA-1 7aaead517dfc9a9021177cb485f7fe101079a9f8,
+  CRC32 a7a26942; save: "...v2.1.99-wip.srm" in RetroArch saves\melonDS DS\ = a copy of the playthrough .srm.
 
 v2.1.98-wip (2026-10-24, rig tested; user test due): L taps the Phantom Hourglass button in the final boss fight
   (user request, user state 938: "a new button to press for the phantom hourglass"; design as the Gongoron swap).

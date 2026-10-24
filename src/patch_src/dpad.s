@@ -161,6 +161,10 @@
         .equ GORON_CELL, 0x30           @   layout cell GORON_CELL: the id alone is also used elsewhere)
         .equ HG_ID, 0x1d                @ the final boss fight's Phantom Hourglass button (bottom centre,
         .equ HG_CELL, 0x4a              @   ~(128, 180), layout cell HG_CELL; user state 938): L taps it
+        .equ HG_SIG_AT, 0x0216d604      @ overlay 29 (final boss fight) is loaded: this word = HG_SIG
+        .equ HG_SIG, 0xe59f1040         @   (no other overlay has it there)
+        .equ HG_OPEN, 0x0217a460        @ overlay 29 bss byte: 1 = the hourglass drawing frame is open
+                                        @   (states 938 / 940 open and closed, rig)
         .equ SIGN_ID, 0x90              @ letter screen (sign a letter): OK, SIGN_ID + 1 = Rewrite
         .equ SC_MODE, 0x2c              @ Sea Chart screen (four seas; from the menu bar)
         .equ SC_ID0, 0x1f               @   its sea buttons, ids SW 0x1f, SE, NW, NE 0x22; only owned
@@ -3445,17 +3449,29 @@ skip_ctl:
         .ltorg
 
 @ L = the Goron Temple's swap button (touch button id GORON_ID, top centre): Link <-> Gongoron.
-@ Also the final boss fight's Phantom Hourglass button (HG_ID, bottom centre): stops time.
+@ Also the final boss fight's Phantom Hourglass button (HG_ID, bottom centre): opens the
+@ drawing frame (a figure eight then stops time).
 @ fs_btn records where it is and the pad read it was last updated in (gr_tab). While it is
 @ live, a new L is hidden from the game (it does nothing there) and menu_tap taps the button.
+@ While the frame is open the button is not updated, so gr_tab goes stale: then the final
+@ fight's overlay (HG_SIG at HG_SIG_AT) with HG_OPEN = 1 has L tap the icon (hg_xy) to close it.
 goron_ctl:
         push    {r4, lr}
         ldr     r4, =gr_tab
         mov     r0, r4
         bl      tab_live
         cmp     r0, #0
-        popeq   {r4, pc}
-        ldr     r2, =PAD
+        bne     1f
+        ldr     r0, =HG_SIG_AT
+        ldr     r1, [r0]
+        ldr     r2, =HG_SIG
+        cmp     r1, r2
+        ldreq   r0, =HG_OPEN
+        ldrbeq  r0, [r0]
+        cmpeq   r0, #1
+        popne   {r4, pc}
+        ldr     r4, =hg_xy
+1:      ldr     r2, =PAD
         ldrh    r1, [r2, #2]
         tst     r1, #KEY_L
         popeq   {r4, pc}
@@ -5664,6 +5680,8 @@ sk_tab:
         .byte   0, 0, 0, 0              @ a cutscene's Skip button: the same
 gr_tab:
         .byte   0, 0, 0, 0              @ the Goron Temple's swap button: the same
+hg_xy:
+        .byte   128, 180, 0, 0          @ the hourglass icon while its drawing frame is open (state 940)
 sy_tab:
         .byte   0, 0, 0, 0              @ shipyard menu's Customize button: the same
 sg_tab:
