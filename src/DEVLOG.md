@@ -13,7 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.77 (builds\v2.1.77\, = root playthrough ROM, = v2.1.90-wip, released 2026-10-24 on the user's request before a RetroArch test; A swings straight). Root wip: none. Next wip: v2.1.91-wip.
+- Latest release: v2.1.77 (builds\v2.1.77\, = root playthrough ROM, = v2.1.90-wip, released 2026-10-24 on the user's request before a RetroArch test; A swings straight). Root wip: v2.1.91-wip (hammer facing, boulder let-go; user test due). Next wip: v2.1.92-wip.
+- Code space: CODE_RESERVE 0x4700 since v2.1.91-wip, 135 bytes free.
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
@@ -21,7 +22,7 @@
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
 - Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: docs\test-checklist.md (empty since 2026-10-23: the user passed every section up to v2.1.74 in RetroArch; only the v2.1.69 bomb set-down is still untested).
+- Pending user tests: docs\test-checklist.md (v2.1.91-wip section; the user passed every section up to v2.1.74 in RetroArch; the v2.1.69 bomb set-down is still untested).
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -97,6 +98,34 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.91-wip (2026-10-24, rig tested (hot-linked into user states 806 / 807, which hold the v2.1.76 code); user test due; ROM in root;
+  SHA-1 d0b363811cd1c4916fc4e4a7eee262be68f7970e, CRC32 38239636; based on v2.1.90-wip; source known\v2.1.91-wip_dpad.s;
+  CODE_RESERVE 0x4500 -> 0x4700, 18041 bytes, 135 free):
+  - User report 1 (state 806, 1F with a switch on a pedestal): taking the hammer out turned Link away from his facing.
+    Cause (decomp LinkStateItem::func_ov059_021990a4 / 02198ffc): with the hammer out and idle, each frame Link turns
+    (0x2000 steps) toward touch ctl +0xbc (PlayerControl::mAimWorld), and taking the hammer out sets that to the fairy's
+    position (rig: (-10096, 2075, 5588), 2075 above the floor). A stylus user moves it with the next touch; buttons never did.
+    The user saw it too: "it almost looks like equipping the hammer faces him in the direction of his fairy".
+    Fix (ham_aim, called by tap_front each touch update): hammer equipped, EquipHammer +0x18 = 0 (idle), no stylus down,
+    no menu_tap: aim point = Link + 1.5 tiles the held D-pad way, else gPlayerAngle (8 ways, it_vec). So Link keeps his
+    facing and the D-pad turns him (it did nothing with the hammer out before).
+    Rig (state 806): X from facing none / down / left / up-left / down-right: angle kept (0eef snapped to 0000);
+    out: Down / Right / Up / Down-left turn Link; A swings down-left; X puts it away; walking after it works.
+  - User report 2 (state 807, B1, a round boulder): pushing it froze Link until he found the right direction.
+    Cause (rig): A grabs it (Link state 2 = Interact, touch ctl +0x94 = 0x7c, grab_on). (1) After the push Link is free
+    (state 0) but +0x94 keeps the boulder, so dpad_move still skipped Left / Right (the push axis). (2) While grabbing,
+    the game ignores our D-pad steering (it lets go only on a stylus touch), so no direction moved Link.
+    Fix (tap_front): (1) a grab also needs Link out of the Move state. (2) Link in the Interact state with the D-pad held
+    (no new A): sideways = one release tap that way at once (do_probe THROW_IDX, the D-pad octant); away = the same after
+    REL_AWAY (12) touch updates, so away + A still pulls a block; toward = waits for A (push). No release for REL_ARROW
+    (32) touch updates after an arrow tap (rel_wait < 0), while the block moves. New helper pad_dir (dir_table lookup).
+    Rig (state 807): after the grab, Up / Down / Left / Up-left / Up-right / Down-left walk off; Right / Down-right (toward)
+    stay; A pushes 1 tile; after the push Left and Right walk; Right held + A pushes.
+  - Rig method: states 806 / 807 hold v2.1.76 code (99.5 % match with a v2.1.88-wip source build). New dpad.o linked at
+    0x023B0000 (free in both states), runtime variables copied, 11 hooks / pointers re-aimed by old -> new symbol.
+  - Not tested: square push blocks (no state near one; the Move-state check assumes Link is in the Interact state while
+    holding one, as with the boulder), a real RetroArch run. Fresh boot (playthrough .srm copy): file select, field walk, B.
 
 v2.1.90-wip (2026-10-24, rig tested; user test due together with two other fixes; released as v2.1.77 the same day on the user's
   request (builds\v2.1.77\: bps 27,930, xdelta 29,909, README, source zip rebuilt to the same SHA-1, xdelta re-applied with

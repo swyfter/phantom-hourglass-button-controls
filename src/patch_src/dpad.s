@@ -257,6 +257,9 @@
         .equ IT_BOMBS, 4                @   6 grappling hook, 7 bombchu, 8 hammer
         .equ IT_BOW, 5
         .equ IT_LAST, 8
+        .equ IT_HAMMER, 8
+        .equ HM_STATE, 0x18             @ EquipHammer: 0 idle, else charging / charged
+        .equ AIM_WORLD, 0xbc            @ touch ctl: hammer aim point (x, y, z); Link turns to it
         .equ ITEM_ICON_X, 241           @ equipped-item icon (bottom screen, top right)
         .equ ITEM_ICON_Y, 15
         .equ IT_WAIT, 45                @ pad reads R is ignored while the item it took out comes out
@@ -281,6 +284,8 @@
         .equ PUSH_DIST, 0x2000          @ block arrows, world units from Link (1 tile = 0x1000):
         .equ PULL_DIST, -0x1000         @   push arrow 2 tiles ahead, pull arrow 1 tile behind,
         .equ ARROW_H, 0x600             @   both floating ~0.4 tile above the floor
+        .equ REL_AWAY, 12               @ touch updates D-pad away from a held block lets go
+        .equ REL_ARROW, 32              @   (none for this many after an arrow tap: it moves)
         @ Field offsets into the data block at the end, for [rN, #X] (from the group's first
         @ label). Numbers here, as ldrh / strh / ldrsb / ldrsh can't take a label difference
         @ defined later; chk_off at each group stops the build if one no longer matches.
@@ -4622,6 +4627,72 @@ dpad_move:
         strh    r0, [r4, #0x64]
 9:      pop     {r0-r6, pc}             @ r0 restored = original return value (r4)
 
+@ r0 = screen heading (dir_table) of the held D-pad, -1 if none or no single direction.
+@ Clobbers r1-r3.
+pad_dir:
+        ldr     r1, =PAD
+        ldrh    r1, [r1]
+        and     r1, r1, #DPAD
+        adr     r2, dir_table
+        add     r3, r2, #(8 * 4)
+1:      ldrh    r0, [r2], #4
+        cmp     r0, r1
+        ldrheq  r0, [r2, #-2]
+        bxeq    lr
+        cmp     r2, r3
+        blo     1b
+        mvn     r0, #0
+        bx      lr
+
+@ Hammer out (user state 806): each frame the game turns Link toward touch ctl AIM_WORLD,
+@ which taking the hammer out sets to the fairy's position, so Link turned toward Ciela.
+@ With the hammer equipped, idle and no stylus down, put that point 1.5 tiles ahead of Link:
+@ the held D-pad way (the D-pad turns him), else the way he faces (8 ways).
+@ Called by tap_front: r4 = touch controller, r5 = camera. Clobbers r0-r3, r12.
+ham_aim:
+        push    {r4, lr}
+        ldr     r0, =ITEM_MGR
+        ldr     r0, [r0]
+        cmp     r0, #0
+        beq     9f
+        ldr     r1, [r0]
+        cmp     r1, #IT_HAMMER
+        bne     9f
+        ldr     r0, [r0, #0xac]         @ EquipItem* per item
+        ldr     r0, [r0, #(IT_HAMMER * 4)]
+        cmp     r0, #0
+        beq     9f
+        ldr     r0, [r0, #HM_STATE]     @ charging: the stylus (our use tap) aims
+        ldr     r1, =TOUCH
+        ldr     r1, [r1]
+        orrs    r0, r0, r1
+        bne     9f
+        ldr     r0, =menu_tap
+        ldrb    r0, [r0]
+        cmp     r0, #0
+        bne     9f
+        bl      pad_dir
+        cmn     r0, #1
+        addne   r1, r5, #0x200
+        ldrshne r1, [r1, #0x26]         @ camera yaw
+        addne   r0, r0, r1
+        ldreq   r0, =PLAYER_ANGLE
+        ldrheq  r0, [r0]
+        bl      hd_oct                  @ world octant
+        ldr     r1, =it_vec
+        add     r1, r1, r0, lsl #1
+        ldr     r3, =PLAYER_POS
+        ldmia   r3, {r0, r2, r3}
+        ldrsb   r12, [r1]               @ (64 = 1) * 96 = 1.5 tiles
+        add     r12, r12, r12, lsl #1
+        add     r0, r0, r12, lsl #5
+        ldrsb   r12, [r1, #1]
+        add     r12, r12, r12, lsl #1
+        add     r3, r3, r12, lsl #5
+        add     r1, r4, #AIM_WORLD
+        stmia   r1, {r0, r2, r3}
+9:      pop     {r4, pc}
+
         .balign 4
 dir_table:                               @ D-pad mask, heading
         .hword  0x40, 0x8000            @ up
@@ -4689,7 +4760,8 @@ tap_front:
         mov     r8, #TEXTBOX_X
         mov     r7, #TEXTBOX_Y
         b       inject
-3:      ldr     r2, =aim_hold       @ age the remembered D-pad direction
+3:      bl      ham_aim
+        ldr     r2, =aim_hold       @ age the remembered D-pad direction
         ldrb    r0, [r2]            @ (not while it holds the direction of a block let go of)
         cmp     r0, #0
         ldr     r2, =last_oct
@@ -4699,6 +4771,66 @@ tap_front:
         addlo   r0, r0, #1
         strblo  r0, [r2, #DIR_AGE]
 30:
+        @ --- letting go ---
+        @ Link in the grab state (Interact) with the D-pad held: the game ignores the steering
+        @ there (a boulder, user state 807: no D-pad let Link go), so tap once that way, as a
+        @ stylus tap off the block does. Sideways at once; away (a block's pull way) after
+        @ REL_AWAY touch updates, so D-pad away + A still pulls; toward = push with A.
+        ldr     r1, =LINK_STATES
+        ldr     r1, [r1]
+        cmp     r1, #0
+        beq     no_rel
+        ldr     r1, [r1, #8]            @ (LinkStateId_Interact = 2)
+        ldr     r0, =LINK_STATE
+        ldr     r0, [r0]
+        cmp     r0, r1
+        bne     no_rel
+        ldr     r2, =PAD
+        ldrh    r0, [r2, #2]
+        tst     r0, #KEY_A
+        bne     no_rel
+        bl      pad_dir
+        cmn     r0, #1
+        beq     no_rel
+        mov     r6, r0                  @ r6 = D-pad heading (screen)
+        add     r1, r5, #0x200
+        ldrsh   r1, [r1, #0x26]         @ camera yaw
+        add     r0, r0, r1
+        add     r0, r0, #0x2000
+        and     r0, r0, #0xc000
+        ldr     r1, =grab_h
+        ldrh    r1, [r1]
+        sub     r0, r0, r1
+        movs    r0, r0, lsl #16
+        beq     no_rel                  @ toward the block
+        ldr     r3, =rel_wait
+        ldrsb   r1, [r3]
+        add     r1, r1, #1              @ < 0: just after an arrow tap, wait
+        cmp     r0, #0x80000000
+        movne   r0, #0                  @ sideways: no count
+        moveq   r0, #REL_AWAY           @ away: count up to REL_AWAY
+        cmp     r1, r0
+        strblt  r1, [r3]
+        blt     31f
+        mov     r1, #0
+        strb    r1, [r3]
+        mov     r0, r6
+        bl      hd_oct
+        ldr     r2, =last_oct           @ the throw tap goes the fresh D-pad way
+        strb    r0, [r2]
+        mov     r0, #0
+        strb    r0, [r2, #DIR_AGE]
+        ldr     r2, =aim_hold
+        strb    r0, [r2]
+        mov     r6, #THROW_IDX
+        b       do_probe
+no_rel: ldr     r3, =rel_wait           @ not letting go: an arrow tap's wait runs out,
+        ldrsb   r1, [r3]                @   an away count starts over
+        cmp     r1, #0
+        addlt   r1, r1, #1
+        movge   r1, #0
+        strb    r1, [r3]
+31:
         @ --- block grabbing ---
         @ While Link holds a push block, touch controller +0x94 = the block's object id (else -1;
         @ +0x98 varies), and the game shows tap arrows on both sides of the block. +0x6a then
@@ -4721,6 +4853,15 @@ tap_front:
         bl      held_obj                @ nor while Link holds an object (a Force Gem picked up
         cmp     r0, #0                  @   leaves +0x94 = the gem, and the D-pad got locked)
         bne     no_grab
+        ldr     r1, =LINK_STATES        @ nor once Link is free again: after a boulder push he
+        ldr     r1, [r1]                @   walks (state 0) but +0x94 keeps the boulder, so
+        cmp     r1, #0                  @   the D-pad along it stayed locked (user state 807)
+        beq     no_grab
+        ldr     r1, [r1]                @ (LinkStateId_Move = 0)
+        ldr     r0, =LINK_STATE
+        ldr     r0, [r0]
+        cmp     r0, r1
+        beq     no_grab
         ldr     r2, =probe_state        @ no follow-up probes while holding a block
         mov     r0, #0
         strb    r0, [r2]
@@ -4775,6 +4916,9 @@ tap_front:
         ldr     r2, =PULL_DIST
 34:     ldr     r1, =arrow_sent
         mov     r0, #1
+        strb    r0, [r1]
+        ldr     r1, =rel_wait
+        mvn     r0, #(REL_ARROW - 1)
         strb    r0, [r1]
         add     r3, sp, #(FRAME + 16 + 44)   @ caller's sp+44 = Link's position (x, y, z)
         ldr     r0, [r3]
@@ -5235,6 +5379,8 @@ ch_y:   .byte   0                       @   y
         chk_off CT_LEFT, ch_left, ch_tap
         chk_off CT_X, ch_x, ch_tap
         chk_off CT_Y, ch_y, ch_tap
+rel_wait:
+        .byte   0                       @ D-pad away from a held block: touch updates (< 0: after an arrow tap)
         .balign 4
 msgwin:
         .word   0                       @ text box seen by dialog_advance
