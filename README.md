@@ -6,6 +6,11 @@ Run with the D-pad, swing the sword with B, roll with A + D-pad, and open the it
 
 This patch was first called the "D-pad Patch". It is based on the 2014 D-pad patch by **griegamaster**, then rewritten, moved and bug-fixed.
 
+> [!NOTE]
+> **This patch is AI-written.** Claude, an AI model by Anthropic, wrote the patch code, the build tools and the documentation.
+> swyfter chose the features, reported the bugs and played the game with each build to test it.
+> Most releases are tested by a human in RetroArch. Some are tested only with an automated emulator script first.
+
 **Latest version: [v2.1.75](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
 
 ---
@@ -88,6 +93,7 @@ See the **[full controls list](docs/README.txt)**.
 ## Credits
 
 - **griegamaster** - the original 2014 D-pad patch.
-- **swyfter** - Button Controls v2 and later.
+- **swyfter** - Button Controls v2 and later: features, bug reports and play testing.
+- **Claude** (Anthropic) - the v2 and later patch code, the tools and the documentation.
 
 This is a fan project. It is not made or approved by Nintendo. The Legend of Zelda is a trademark of Nintendo.
