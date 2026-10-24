@@ -98,7 +98,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
 v2.1.90-wip (2026-10-24, rig tested; user test due; ROM in root, SHA-1 0e0bc014d2f026794304066cb6190b740110dc74; based on v2.1.76;
-  source known\v2.1.90-wip_dpad.s; not committed):
+  source known\v2.1.90-wip_dpad.s; committed 9dc2a1c; user test due together with two other fixes):
   - User report (state 1, v2.1.89-wip, a dungeon 1F, two tablets): standing facing left or down, A turned Link slightly and
     swung the sword diagonally.
   - Cause (rig log): A on bare ground sends the probe taps; the first tap ~18-20px from Link on the ground (left/right:
