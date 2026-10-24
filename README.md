@@ -11,6 +11,10 @@ This patch was first called the "D-pad Patch". It is based on the 2014 D-pad pat
 > swyfter chose the features, reported the bugs and played the game with each build to test it.
 > Most releases are tested by a human in RetroArch. Some are tested only with an automated emulator script first.
 
+> [!TIP]
+> **Tested through the whole game.** swyfter played Phantom Hourglass from the start to the end with this patch, in RetroArch with the melonDS DS core.
+> Each button problem found on the way is fixed in a release, from v2.1.3 to v2.1.84.
+
 **Latest version: [v2.1.84](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
 
 ---

@@ -686,12 +686,15 @@ What changed from v2 (in v2.1)
 
 Testing done
 ------------
+Full playthrough: the whole game, from the start to the end, was played with the patch in
+RetroArch with the melonDS DS core (v2.1.3 to v2.1.84, finished 2026-10-24). Each button
+problem found on the way is fixed in a release below.
 v2.1, in melonDS (RetroArch, melonDS DS core): talking (incl. from a distance and from below),
 lifting rocks/barrels/pots from every side, reading signs, throwing in all directions,
 sword attacks (B, B + D-pad, Y + B), map/menu/items buttons.
 v2.1.2, in melonDS: pushing and pulling a block from all four sides, grabbing it again after
 letting go, throwing.
-v2.1.3: being tested in a full playthrough. Report any spot where the buttons stop responding.
+v2.1.3: start of the full playthrough. Report any spot where the buttons stop responding.
 v2.1.4, in melonDS: collection page switching with the D-pad. Both patch files checked by
 applying them.
 v2.1.5, in melonDS: picking dialogue choices with the D-pad and A. Both patch files checked
@@ -823,8 +826,8 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
-v2.1.84: hold A in the final boss sword clash (state 944) was tested in a test setup only: Link won the clash; without A he lost it. Both patch files checked by applying them.
-v2.1.83: L opening and closing the hourglass drawing frame in the final boss fight (states 938 / 940) was tested in a test setup only. Both patch files checked by applying them.
+v2.1.84, in RetroArch with the melonDS DS core: hold A in the final boss sword clash wins the clash (also in a test setup: without A, Link lost it). Both patch files checked by applying them.
+v2.1.83, in RetroArch with the melonDS DS core: L opening and closing the hourglass drawing frame in the final boss fight. Both patch files checked by applying them.
 v2.1.82, in RetroArch with the melonDS DS core: the bombchu map GO! (A), CANCEL (B) and Back (B) on Mercay Island. Both patch files checked by applying them.
 v2.1.81, in RetroArch with the melonDS DS core: the treasure merchant grid (long Left / Right, keys during a tab switch). Both patch files checked by applying them.
 v2.1.80, in RetroArch with the melonDS DS core: A (OK) and B (Rewrite) on the letter screen at a red mailbox. Both patch files checked by applying them.

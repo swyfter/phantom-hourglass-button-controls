@@ -1,35 +1,16 @@
 # Phantom Hourglass Button Controls patch - development log
 
-## State (2026-10-21)
-- Latest release: v2.1.68 (builds\v2.1.68\, = root playthrough ROM, = v2.1.80-wip; released 2026-10-22 after the user's RetroArch test: "button combo works").
-- Root wip: none (v2.1.78-wip released as v2.1.66). v2.1.42-wip to v2.1.78-wip are in builds\.
-- Root wip: none (v2.1.79-wip released as v2.1.67; it is in builds\). v2.1.79-wip (2026-10-21, NOT rig-tested in the ice scene, user test due): hold A rubs Link out of ice.
-  User state 584 (Link frozen in a block, "RUB!" bubble): Link state = damage state (id 5, state +0x18 = 6, +0x20 counts
-  15 to 0 per stroke), gPlayer +0x48 = 0, so the green-blob test missed it. Rig (state 584, old code, raw strokes): diagonal
-  zig-zag frees Link in ~23 strokes; horizontal-only strokes do nothing. Fix: fg_grab also takes state 5 + +0x18 = 6
-  (LS_DAMAGE, LS_ICE). State 157 (deck) is also state 5 with +0x18 = 2: not matched. Needs a fresh ice freeze to test
-  (state 584 holds the old code). CODE_RESERVE 0x4300, 223 bytes free.
-- Root wip: none (v2.1.80-wip released as v2.1.68; it is in builds\; user tested in RetroArch: hold A jumps off a grappling hook post). Entry below.
-- Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
-- Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
-- Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.84 (builds\v2.1.84\, = root playthrough ROM, = v2.1.100-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; hold A wins the final boss sword clash). Root wip: none. Next wip: v2.1.101-wip.
-- Previous release: v2.1.83 (builds\v2.1.83\, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; L opens / closes the final fight's hourglass drawing frame).
-- Previous release: v2.1.82 (builds\v2.1.82\, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list).
-- Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
-- Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
-- Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
-- Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
-- Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
-- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 51 bytes free since v2.1.100-wip (was 0x4700 since v2.1.91-wip).
-- Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
-- Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
-- Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
-- Previous release: v2.1.73 (builds\v2.1.73\, = v2.1.86-wip; full line at once, could not catch a post beside Link: replaced by v2.1.74).
-- Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
-- Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
-- Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: none. The user passed every docs\test-checklist.md section in RetroArch by 2026-10-24, including the v2.1.69 bomb set-down, the v2.1.81 merchant grid, the v2.1.83 hourglass L and the v2.1.84 clash rub.
+## State (2026-10-24)
+- PLAYTHROUGH FINISHED (user, 2026-10-24): the user played the whole game with the patch in RetroArch (melonDS DS core),
+  from v2.1.3 to v2.1.84, from the start to the end of the game. Every button spot found on the way is fixed and passed.
+- Latest release: v2.1.84 (builds\v2.1.84\, = root playthrough ROM, = v2.1.100-wip, released 2026-10-24; user tested in
+  RetroArch the same day: passed; hold A wins the final boss sword clash). Root wip: none. Next wip: v2.1.101-wip.
+  Other sessions also build wips: check root, builds\ and this file for the next free number.
+- Code space: CODE_RESERVE 0x4800 since v2.1.93-wip, 51 bytes free since v2.1.100-wip.
+- Pending user tests: none. The user passed every docs\test-checklist.md section in RetroArch by 2026-10-24.
+- Repo: github.com/swyfter/phantom-hourglass-button-controls, private until the user makes it public (user's step, 2026-10-24).
+  Docs wrapped up for that on 2026-10-24 (README.md, docs\README.txt, docs\test-checklist.md, this file).
+- Open requests: "Future feature requests" below (boomerang hold A path, camera on a stick). None blocks play.
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -74,13 +55,13 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | yes (RetroArch, 2026-10-24: "placing stone shapes in slots" passes); released on the user's request before the test |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
+| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |
+| v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
 | v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | yes (RetroArch, 2026-10-24: passed); released on the user's request before the test |
 | v2.1.82 | v2.1.97-wip | 2026-10-24 | de2b6e539a6d9a2fc9338f1fc8b554a0140580f3 | bombchu map GO! / CANCEL: route object found in the list at 0x020e9c28 (was a fixed distance below MAP_OBJ) | yes (RetroArch, 2026-10-24: "all buttons work") |
 | v2.1.83 | v2.1.99-wip | 2026-10-24 | 7aaead517dfc9a9021177cb485f7fe101079a9f8 | final boss fight: L taps the Phantom Hourglass icon (opens the drawing frame), L again closes it (19 bytes free of 0x4800) | yes (RetroArch, 2026-10-24: "L opens and closes the window and the A rub works perfect"); released on the user's request before the test |
 | v2.1.84 | v2.1.100-wip | 2026-10-24 | 8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e | final boss sword clash: hold A wins (rub side = 2 frames by the SDK frame counter, was 1 pad read; 51 bytes free of 0x4800) | yes (RetroArch, 2026-10-24: "L opens and closes the window and the A rub works perfect"); released on the user's request before the test |
-| v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
-| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
 
@@ -905,6 +886,14 @@ v2.1.68-wip (2026-10-21, rig tested; user tested: all checks passed; released as
   builds\). docs\README.txt: title, result SHA-1 / CRC32, patch names, change section, testing line (the README
   review fixes ship with it). docs\test-checklist.md: the v2.1.68-wip section removed (passed), header names
   v2.1.58. Save: the playthrough .srm was kept; no wip .srm was copied over it. Release v2.1.58 = wip v2.1.68-wip.
+
+v2.1.79-wip (2026-10-21, NOT rig-tested in the ice scene, user test due): hold A rubs Link out of ice.
+  User state 584 (Link frozen in a block, "RUB!" bubble): Link state = damage state (id 5, state +0x18 = 6, +0x20 counts
+  15 to 0 per stroke), gPlayer +0x48 = 0, so the green-blob test missed it. Rig (state 584, old code, raw strokes): diagonal
+  zig-zag frees Link in ~23 strokes; horizontal-only strokes do nothing. Fix: fg_grab also takes state 5 + +0x18 = 6
+  (LS_DAMAGE, LS_ICE). State 157 (deck) is also state 5 with +0x18 = 2: not matched. Needs a fresh ice freeze to test
+  (state 584 holds the old code). CODE_RESERVE 0x4300, 223 bytes free.
+  (Moved here from the State section on 2026-10-24; released as v2.1.67, user tested in RetroArch 2026-10-23.)
 
 ## Microphone spots (2026-10-17, no build; user hit a "talk into the mic" spot)
 - melonDS DS 1.4.0 core options (Quick Menu > Core Options > Audio): melonds_mic_input = silence / blow (loops a
