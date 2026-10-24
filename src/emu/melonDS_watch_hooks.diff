@@ -1,0 +1,47 @@
+diff --git a/src/CP15.cpp b/src/CP15.cpp
+index 9fa0281..1611be1 100644
+--- a/src/CP15.cpp
++++ b/src/CP15.cpp
+@@ -842,8 +842,10 @@ void ARMv5::DataRead8(u32 addr, u32* val)
+     DataCycles = MemTimings[addr >> 12][1];
+ }
+ 
++u32 g_watchAddr = 0xFFFFFFFF; u32 g_wwatchAddr = 0xFFFFFFFF; void (*g_watchCb)(u32,u32) = nullptr;
+ void ARMv5::DataRead16(u32 addr, u32* val)
+ {
++    if (g_watchCb && (addr & ~1u) == g_watchAddr) g_watchCb(R[15], R[14]);
+     if (!(PU_Map[addr>>12] & 0x01))
+     {
+         DataAbort();
+@@ -923,6 +925,7 @@ void ARMv5::DataRead32S(u32 addr, u32* val)
+ 
+ void ARMv5::DataWrite8(u32 addr, u8 val)
+ {
++    { extern u32 g_wwatchAddr; extern void (*g_watchCb)(u32,u32); if (g_watchCb && (addr & ~3u) == (g_wwatchAddr & ~3u)) g_watchCb(R[15], 0xEEEE0000 | (val & 0xFFFF)); }
+     if (!(PU_Map[addr>>12] & 0x02))
+     {
+         DataAbort();
+@@ -951,6 +954,7 @@ void ARMv5::DataWrite8(u32 addr, u8 val)
+ 
+ void ARMv5::DataWrite16(u32 addr, u16 val)
+ {
++    { extern u32 g_wwatchAddr; extern void (*g_watchCb)(u32,u32); if (g_watchCb && (addr & ~3u) == (g_wwatchAddr & ~3u)) g_watchCb(R[15], 0xEEEE0000 | (val & 0xFFFF)); }
+     if (!(PU_Map[addr>>12] & 0x02))
+     {
+         DataAbort();
+@@ -981,6 +985,7 @@ void ARMv5::DataWrite16(u32 addr, u16 val)
+ 
+ void ARMv5::DataWrite32(u32 addr, u32 val)
+ {
++    { extern u32 g_wwatchAddr; extern void (*g_watchCb)(u32,u32); if (g_watchCb && addr == g_wwatchAddr) g_watchCb(R[15], 0xEEEE0000 | (val & 0xFFFF)); }
+     if (!(PU_Map[addr>>12] & 0x02))
+     {
+         DataAbort();
+@@ -1011,6 +1016,7 @@ void ARMv5::DataWrite32(u32 addr, u32 val)
+ 
+ void ARMv5::DataWrite32S(u32 addr, u32 val)
+ {
++    { extern u32 g_wwatchAddr; extern void (*g_watchCb)(u32,u32); if (g_watchCb && (addr & ~3u) == (g_wwatchAddr & ~3u)) g_watchCb(R[15], 0xEEEE0000 | (val & 0xFFFF)); }
+     addr &= ~3;
+ 
+     if (addr < ITCMSize)

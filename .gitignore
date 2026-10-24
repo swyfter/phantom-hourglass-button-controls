@@ -1,0 +1,20 @@
+# Nintendo ROMs (copyrighted) - patches (.xdelta / .bps) are tracked instead
+*.nds
+.backup/
+
+# Saves, emulator states and RAM dumps (game memory; snaps also hold the DS firmware nickname)
+*.sav
+*.srm
+*.state*
+src/saves/
+src/snaps/
+src/ctlwatch.txt
+src/ralog.txt
+src/ralog_block.txt
+
+# Extracted game script (copyrighted)
+docs/dialogue-en.txt
+
+# Python cache (holds local paths)
+__pycache__/
+*.pyc

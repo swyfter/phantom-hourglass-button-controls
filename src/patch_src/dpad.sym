@@ -1,0 +1,10 @@
+0219b120 T dialog_advance
+0219b170 T pad_update
+0219b6c8 T menu_touch
+0219babc T smenu_btn
+0219d4f0 T fs_btn
+0219eb54 T dpad_move
+0219ec90 T tap_front
+0219f1fc T roll_check
+0219f22c T slash_check
+0219f268 T spin_check
