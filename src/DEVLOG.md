@@ -13,8 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.84 (builds\v2.1.84\, = root playthrough ROM, = v2.1.100-wip, released 2026-10-24 on the user's request before a RetroArch test; hold A wins the final boss sword clash). Root wip: none. Next wip: v2.1.101-wip.
-- Previous release: v2.1.83 (builds\v2.1.83\, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; L opens / closes the final fight's hourglass drawing frame).
+- Latest release: v2.1.84 (builds\v2.1.84\, = root playthrough ROM, = v2.1.100-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; hold A wins the final boss sword clash). Root wip: none. Next wip: v2.1.101-wip.
+- Previous release: v2.1.83 (builds\v2.1.83\, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; L opens / closes the final fight's hourglass drawing frame).
 - Previous release: v2.1.82 (builds\v2.1.82\, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list).
 - Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
@@ -29,7 +29,7 @@
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
 - Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: none. The user passed every docs\test-checklist.md section in RetroArch by 2026-10-24, including the v2.1.69 bomb set-down and the v2.1.81 merchant grid.
+- Pending user tests: none. The user passed every docs\test-checklist.md section in RetroArch by 2026-10-24, including the v2.1.69 bomb set-down, the v2.1.81 merchant grid, the v2.1.83 hourglass L and the v2.1.84 clash rub.
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -77,8 +77,8 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.80 | v2.1.93-wip | 2026-10-24 | a7227218c7711da0e3640f157cdf7bc2c29114ab | letter screen at a red mailbox: A = OK, B = Rewrite (sig_ctl, CODE_RESERVE 0x4800) | yes (RetroArch, 2026-10-24: "both buttons work great") |
 | v2.1.81 | v2.1.95-wip | 2026-10-24 | 52abbcf6388772c005fda7d1b0166012b8f1204b | merchant / collection grid: light kept on long Left / Right (v2.1.94-wip), keys wait during a tab switch (cl_wtk) | yes (RetroArch, 2026-10-24: passed); released on the user's request before the test |
 | v2.1.82 | v2.1.97-wip | 2026-10-24 | de2b6e539a6d9a2fc9338f1fc8b554a0140580f3 | bombchu map GO! / CANCEL: route object found in the list at 0x020e9c28 (was a fixed distance below MAP_OBJ) | yes (RetroArch, 2026-10-24: "all buttons work") |
-| v2.1.83 | v2.1.99-wip | 2026-10-24 | 7aaead517dfc9a9021177cb485f7fe101079a9f8 | final boss fight: L taps the Phantom Hourglass icon (opens the drawing frame), L again closes it (19 bytes free of 0x4800) | rig; released on the user's request before a RetroArch test |
-| v2.1.84 | v2.1.100-wip | 2026-10-24 | 8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e | final boss sword clash: hold A wins (rub side = 2 frames by the SDK frame counter, was 1 pad read; 51 bytes free of 0x4800) | rig; released on the user's request before a RetroArch test |
+| v2.1.83 | v2.1.99-wip | 2026-10-24 | 7aaead517dfc9a9021177cb485f7fe101079a9f8 | final boss fight: L taps the Phantom Hourglass icon (opens the drawing frame), L again closes it (19 bytes free of 0x4800) | yes (RetroArch, 2026-10-24: "L opens and closes the window and the A rub works perfect"); released on the user's request before the test |
+| v2.1.84 | v2.1.100-wip | 2026-10-24 | 8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e | final boss sword clash: hold A wins (rub side = 2 frames by the SDK frame counter, was 1 pad read; 51 bytes free of 0x4800) | yes (RetroArch, 2026-10-24: "L opens and closes the window and the A rub works perfect"); released on the user's request before the test |
 | v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block: yes (RetroArch, 2026-10-24: "the stone block" passes) |
 
@@ -113,7 +113,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.100-wip (2026-10-24, rig tested; released as v2.1.84 the same day on the user's request, before a RetroArch test (builds\v2.1.84\: bps 28,475, xdelta 30,453, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user test due): hold A wins the final boss sword clash (user state 944: Bellum's
+v2.1.100-wip (2026-10-24, rig tested; released as v2.1.84 the same day on the user's request, before a RetroArch test (builds\v2.1.84\: bps 28,475, xdelta 30,453, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user tested in RetroArch 2026-10-24: "L opens and closes the window and the A rub works perfect"): hold A wins the final boss sword clash (user state 944: Bellum's
   sword locked with Link's, "RUB!" bubble with a left-right arrow; the state holds v2.1.97-wip code = v2.1.82).
   - Found (rig, state 944): the known clash: Link state 4 (0x0225686c) sub-state 8, gPlayer +0x48 = 0x20, so fg_off's rub
     already ran (fg_x / fg_y zig-zag 104/152, 122/130), but held A = no input: Link loses at frame 110 (damage state 5).
@@ -133,7 +133,7 @@ v2.1.100-wip (2026-10-24, rig tested; released as v2.1.84 the same day on the us
   ROM: "Phantom Hourglass US - Button Controls v2.1.100-wip.nds" (root), SHA-1 8915d99da2dd99bd2c05bc7a79fd2660a5e8ce5e,
   CRC32 5b02447a, now in builds\; save: "...v2.1.100-wip.srm" in RetroArch saves\melonDS DS\ = a copy of the playthrough .srm.
 
-v2.1.99-wip (2026-10-24, rig tested; released as v2.1.83 the same day on the user's request, before a RetroArch test (builds\v2.1.83\: bps 28,493, xdelta 30,470, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user test due): L also closes the hourglass drawing frame (user request:
+v2.1.99-wip (2026-10-24, rig tested; released as v2.1.83 the same day on the user's request, before a RetroArch test (builds\v2.1.83\: bps 28,493, xdelta 30,470, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user tested in RetroArch 2026-10-24: "L opens and closes the window and the A rub works perfect"): L also closes the hourglass drawing frame (user request:
   "L button should also close the drawing frame").
   - Found (rig, states 938 / 940): a stylus tap on the hourglass icon (128, 180) closes the open frame. While the frame
     is open the button is not updated (fs_btn never sees it), so gr_tab goes stale and v2.1.98's L did nothing.
