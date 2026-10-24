@@ -11,7 +11,7 @@ This patch was first called the "D-pad Patch". It is based on the 2014 D-pad pat
 > swyfter chose the features, reported the bugs and played the game with each build to test it.
 > Most releases are tested by a human in RetroArch. Some are tested only with an automated emulator script first.
 
-**Latest version: [v2.1.78](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
+**Latest version: [v2.1.79](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
 
 ---
 
@@ -26,16 +26,16 @@ To check that your ROM is the correct one, compare its checksum:
 
 | | Before the patch | After the patch |
 |---|---|---|
-| CRC32 | `8b431c41` | `38239636` |
-| SHA-1 | `4c8f52dd719918bbcd46e73a8bae8628139c1b85` | `d0b363811cd1c4916fc4e4a7eee262be68f7970e` |
+| CRC32 | `8b431c41` | `56b04042` |
+| SHA-1 | `4c8f52dd719918bbcd46e73a8bae8628139c1b85` | `33735b5fb6d9678051042ad758b262adfbbc19f7` |
 
 ---
 
 ## How to install (about 2 minutes)
 
 1. Download **one** patch file from the [latest release](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest):
-   - [`zelda_phantom_hourglass_buttons_v2.1.78.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.78/zelda_phantom_hourglass_buttons_v2.1.78.xdelta), or
-   - [`zelda_phantom_hourglass_buttons_v2.1.78.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.78/zelda_phantom_hourglass_buttons_v2.1.78.bps)
+   - [`zelda_phantom_hourglass_buttons_v2.1.79.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.79/zelda_phantom_hourglass_buttons_v2.1.79.xdelta), or
+   - [`zelda_phantom_hourglass_buttons_v2.1.79.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.79/zelda_phantom_hourglass_buttons_v2.1.79.bps)
 2. Open [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) in your browser. It works offline and does not upload your ROM.
 3. Select your **clean** (unpatched) ROM, then select the patch file.
 4. Click **Apply patch** and save the new `.nds` file.

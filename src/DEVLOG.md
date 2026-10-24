@@ -13,7 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.78 (builds\v2.1.78\, = root playthrough ROM, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: v2.1.92-wip (dialogue choices take the stylus again; user tested in RetroArch 2026-10-24: all pass; not released). Next wip: v2.1.93-wip.
+- Latest release: v2.1.79 (builds\v2.1.79\, = root playthrough ROM, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again). Root wip: none. Next wip: v2.1.93-wip.
+- Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
 - Code space: CODE_RESERVE 0x4700 since v2.1.91-wip, 103 bytes free (v2.1.92-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
@@ -68,6 +69,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 | v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
+| v2.1.79 | v2.1.92-wip | 2026-10-24 | 33735b5fb6d9678051042ad758b262adfbbc19f7 | a stylus tap picks a dialogue choice again (menu_touch takeover while choices are up) | yes (RetroArch, 2026-10-24: "all tests pass!") |
 | v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block not tested |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
@@ -101,8 +103,8 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.92-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all tests pass!" (NPC choices by stylus and D-pad, Save No)): a stylus tap picks a dialogue choice again.
-  ROM "Phantom Hourglass US - Button Controls v2.1.92-wip.nds" (root), SHA-1 33735b5fb6d9678051042ad758b262adfbbc19f7,
+v2.1.92-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all tests pass!" (NPC choices by stylus and D-pad, Save No); released as v2.1.79 the same day on the user's request (builds\v2.1.79\: bps 28,262, xdelta 30,241, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): a stylus tap picks a dialogue choice again.
+  ROM "Phantom Hourglass US - Button Controls v2.1.92-wip.nds", SHA-1 33735b5fb6d9678051042ad758b262adfbbc19f7,
   CRC32 56b04042; based on v2.1.91-wip; source known2.1.92-wip_dpad.s; dpad.bin 18073 bytes, 103 free of 0x4700:
   - User report: the D-pad works on dialogue choices, but a stylus tap on a bubble no longer picks it.
     Cause: since v2.1.11-wip choice_ctl holds the fake stylus on the top bubble (ch_tap CH_HOLD, no end), and
