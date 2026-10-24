@@ -13,8 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.78 (builds\v2.1.78\, = root playthrough ROM, = v2.1.91-wip, released 2026-10-24 on the user's request before a RetroArch test; hammer facing, boulder let-go). Root wip: none. Next wip: v2.1.92-wip.
-- Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request before a RetroArch test; A swings straight).
+- Latest release: v2.1.78 (builds\v2.1.78\, = root playthrough ROM, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none. Next wip: v2.1.92-wip.
+- Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
 - Code space: CODE_RESERVE 0x4700 since v2.1.91-wip, 135 bytes free.
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
@@ -23,7 +23,7 @@
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
 - Previous release: v2.1.71 (builds\v2.1.71\, = v2.1.84-wip, released 2026-10-22 on the user's request; ice rub fixed, includes v2.1.83-wip's hook post jump; user test due). Root wip: none. Next wip: v2.1.85-wip. Other sessions also build wips: check root, builds\ and this file for the next free number.
 - Code space: CODE_RESERVE 0x4400 since v2.1.83-wip, 219 bytes free.
-- Pending user tests: docs\test-checklist.md (v2.1.91-wip section; the user passed every section up to v2.1.74 in RetroArch; the v2.1.69 bomb set-down is still untested).
+- Pending user tests: docs\test-checklist.md (the user passed every section up to v2.1.78 in RetroArch; still untested: the v2.1.69 bomb set-down and v2.1.78 with a square push block).
 - Name "Button Controls" since v2.1.36 (files zelda_phantom_hourglass_buttons_*, buttons_vX.Y.Z_source.zip).
 - Older history (v2 to v2.1.57-wip, the old State text, finished future items): src\DEVLOG-archive.md.
 
@@ -67,8 +67,8 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.74 | v2.1.87-wip | 2026-10-22 | a6fe4bccaa152c32d487c4b52f760fd4eded8d2b | hook line starts at Link, full in 8 reads (HK_START 0, HK_STEP 32) | yes (RetroArch, 2026-10-23) |
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
 | v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
-| v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | rig; released on the user's request, user tests it with two other fixes |
-| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | rig; released on the user's request, user tests it with the open checks |
+| v2.1.77 | v2.1.90-wip | 2026-10-24 | 0e0bc014d2f026794304066cb6190b740110dc74 | A on bare ground: one sword swing, straight the way Link faces (was diagonal, repeated) | yes (RetroArch, 2026-10-24: "A swings once and does not turn Link") |
+| v2.1.78 | v2.1.91-wip | 2026-10-24 | d0b363811cd1c4916fc4e4a7eee262be68f7970e | hammer keeps Link's facing (its aim was the fairy), D-pad lets go of a boulder (CODE_RESERVE 0x4700) | yes (RetroArch, 2026-10-24: hammer keeps the facing, boulder no longer locks Link); square push block not tested |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
 
@@ -101,7 +101,8 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.91-wip (2026-10-24, rig tested (hot-linked into user states 806 / 807, which hold the v2.1.76 code); user test due; released as v2.1.78 the same day on the user's
+v2.1.91-wip (2026-10-24, rig tested (hot-linked into user states 806 / 807, which hold the v2.1.76 code); user tested in RetroArch 2026-10-24: "hammer is equipped in the direction link is facing
+  without turning him", "boulders do not lock Link in place, he is able to move left and right after pushing them"; released as v2.1.78 the same day on the user's
   request (builds\v2.1.78\: bps 28,242, xdelta 30,221, README, source zip rebuilt to the same SHA-1, xdelta re-applied with
   src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept;
   SHA-1 d0b363811cd1c4916fc4e4a7eee262be68f7970e, CRC32 38239636; based on v2.1.90-wip; source known\v2.1.91-wip_dpad.s;
@@ -131,7 +132,7 @@ v2.1.91-wip (2026-10-24, rig tested (hot-linked into user states 806 / 807, whic
   - Not tested: square push blocks (no state near one; the Move-state check assumes Link is in the Interact state while
     holding one, as with the boulder), a real RetroArch run. Fresh boot (playthrough .srm copy): file select, field walk, B.
 
-v2.1.90-wip (2026-10-24, rig tested; user test due together with two other fixes; released as v2.1.77 the same day on the user's
+v2.1.90-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "A swings once and does not turn Link"; released as v2.1.77 the same day on the user's
   request (builds\v2.1.77\: bps 27,930, xdelta 29,909, README, source zip rebuilt to the same SHA-1, xdelta re-applied with
   src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; SHA-1
   0e0bc014d2f026794304066cb6190b740110dc74, CRC32 898a0164; based on v2.1.76; source known\v2.1.90-wip_dpad.s; committed 9dc2a1c):
