@@ -97,4 +97,12 @@ See the **[full controls list](docs/README.txt)**.
 - **swyfter** - Button Controls v2 and later: features, bug reports and play testing.
 - **Claude** (Anthropic) - the v2 and later patch code, the tools and the documentation.
 
+## License
+
+The patch code, the tools and the documentation in this repo use the [GNU General Public License v3.0](LICENSE.md).
+
+- The license does not cover parts that come from griegamaster's 2014 D-pad patch.
+- The license does not cover the game or the game text. Nintendo owns them.
+- `src/emu/melonDS_watch_hooks.diff` changes [melonDS](https://github.com/melonDS-emu/melonDS), which also uses GPL-3.0.
+
 This is a fan project. It is not made or approved by Nintendo. The Legend of Zelda is a trademark of Nintendo.
