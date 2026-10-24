@@ -1,4 +1,4 @@
-The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.77
+The Legend of Zelda: Phantom Hourglass - Button Controls Patch v2.1.78
 ======================================================================
 Play with the D-pad and buttons instead of the stylus (formerly the "D-pad Patch").
 Based on the 2014 D-pad patch by griegamaster. Rewritten, relocated and bug-fixed.
@@ -9,12 +9,12 @@ Legend of Zelda, The - Phantom Hourglass (USA), game code AZEE, rev 0, untrimmed
   SHA-1  4c8f52dd719918bbcd46e73a8bae8628139c1b85
   CRC32  8b431c41
 Result:
-  SHA-1  0e0bc014d2f026794304066cb6190b740110dc74
-  CRC32  898a0164
+  SHA-1  d0b363811cd1c4916fc4e4a7eee262be68f7970e
+  CRC32  38239636
 
 Two equivalent patch files are included. Both refuse a wrong source ROM.
-  zelda_phantom_hourglass_buttons_v2.1.77.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
-  zelda_phantom_hourglass_buttons_v2.1.77.bps   - Floating IPS (flips), Rom Patcher JS, beat
+  zelda_phantom_hourglass_buttons_v2.1.78.xdelta - xdelta3, Delta Patcher, Rom Patcher JS
+  zelda_phantom_hourglass_buttons_v2.1.78.bps   - Floating IPS (flips), Rom Patcher JS, beat
 Apply to a CLEAN ROM, not to one already patched with an earlier version.
 Emulator save states made with an older version carry that version's code: load your
 in-game save after updating instead.
@@ -166,6 +166,13 @@ Controls
   A                  Salvage Arm: move the handle back to the center
   B or Select        Salvage Arm: stop (the red arrow)
 The stylus still works for everything.
+
+What changed from v2.1.77 (in v2.1.78)
+--------------------------------------
+ - Hammer: taking it out no longer turns Link toward his fairy. He keeps his facing, and the D-pad turns him
+   while the hammer is out.
+ - Boulders: the D-pad lets go of a grabbed boulder (sideways at once, away after a short hold; toward + A
+   still pushes). After a push, Left and Right walk again (Link was stuck until he went up or down).
 
 What changed from v2.1.76 (in v2.1.77)
 --------------------------------------
@@ -769,6 +776,7 @@ v2.1.56: Start, B and A on the pause menu (at the merchant's table and at sea) w
 test setup only. Both patch files checked by applying them.
 v2.1.57: Start twice in the opening story and the next cutscene, and every other button with
 "Skip >>" shown, were tested in a test setup only. Both patch files checked by applying them.
+v2.1.78: the hammer (state 806) and a round boulder (state 807) were tested in a test setup only; square push blocks were not tested. Both patch files checked by applying them.
 v2.1.77: A on bare ground in all 8 directions was tested in a test setup only (one straight swing each). Both patch files checked by applying them.
 v2.1.76, in RetroArch with the melonDS DS core: boot, file select, D-pad, B, R and Select in the field. The game code is checked to be the same as v2.1.75. Both patch files checked by applying them.
 v2.1.75: A with a stone below a pedestal (Temple of the Ocean King, state 649) was checked in a test setup only, by changing the old tap offset; the new code itself was not run. Both patch files checked by applying them.
