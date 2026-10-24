@@ -13,7 +13,7 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.81 (builds\v2.1.81\, = root playthrough ROM, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; merchant grid light kept on long Left / Right, keys wait during a tab switch). Root wip: none. Next wip: v2.1.96-wip.
+- Latest release: v2.1.81 (builds\v2.1.81\, = root playthrough ROM, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; merchant grid light kept on long Left / Right, keys wait during a tab switch). Root wip: v2.1.97-wip (bombchu GO! / CANCEL, entry below). Next wip: v2.1.98-wip.
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
 - Previous release: v2.1.78 (builds\v2.1.78\, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: none.
@@ -106,6 +106,35 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.97-wip (2026-10-24, rig tested; user test due; root "Phantom Hourglass US - Button Controls v2.1.97-wip.nds", 87 bytes free of 0x4800):
+  bombchu route panel, fix for v2.1.96-wip: user state "v2.1.96-wip.state2" (Mercay Island, route drawn): no button worked.
+  - Cause: there the route object (0x021d0dd0) is 0xccf8 below [MAP_OBJ] (0x021ddac8, whose first word is a heap address,
+    so MAP_OBJ does not hold the map screen object here). No fixed distance to MAP_OBJ exists.
+  - Found: the static list BCHU_LIST 0x020e9c28 holds {func, object, id} entries (12 bytes, func 0 = end); while a route is
+    drawn one entry is {0x02199181, route object, 0x2334a} (states 526, 537, 841, v2.1.96 state1 / state2; at entry 1, 2 or 4).
+    No route (state 525): no such entry. In the last 150 user states the list held at most 6 entries.
+  - Code: dpad.s bombchu block: walk BCHU_LIST (at most 16 entries, stop at func 0), take the first object in main RAM
+    with vtable BCHU_VT, panel byte +BCHU_PANEL; none = no panel. Replaces the v2.1.96 scan below MAP_OBJ.
+  - Rig (new block linked at 0x0219F8C0, old block start 0x219b4fc branched to it): v2.1.96 state2 and state 841 (v2.1.80
+    code): A = mode 0x0d -> 0x0e -> 0x01 (bombchu launches); B = panel 0, map stays; B again = back arrow (mode 0x01).
+    v2.1.96 code in state2: A / B = nothing. Fresh boot of the full ROM (playthrough .srm copy): file select, sea; no crash.
+  - Not tested: real RetroArch; a full hot-link of v2.1.97 into a user state (only the bombchu block was swapped).
+  ROM SHA-1 de2b6e539a6d9a2fc9338f1fc8b554a0140580f3, CRC32 e0267fc6. Save: "...v2.1.97-wip.srm" = a copy of the playthrough .srm.
+
+v2.1.96-wip (2026-10-24, rig tested; failed the user test (v2.1.96-wip state2: no button works, fixed in v2.1.97-wip); ROM in builds\, 99 bytes free of 0x4800):
+  bombchu route panel: A (GO!) and B (CANCEL) did nothing again (user state 841, which holds the v2.1.80 code).
+  - Cause: v2.1.75-wip reads the route object at [MAP_OBJ] - 0x5fc. In state 841 it is at [MAP_OBJ] - 0x600 (MAP_OBJ
+    0x021d3fac, route object 0x021d39ac); the word at - 0x5fc is 0, so "no panel": A went to the game, B tapped the
+    back arrow, which does nothing while the panel shows. The gap between the two heap objects is not fixed.
+  - Code: dpad.s bombchu block (pad_update, label 4): find BCHU_VT in the words from [MAP_OBJ] - 0x620 to - 0x5f0
+    (lr = end; pad_update pushed it), panel byte from the first match (+BCHU_PANEL). Covers 0x5fc (525 / 526 / 537) and 0x600 (841).
+  - Rig, state 841 (new block linked in the unused end of the v2.1.80 CODE_RESERVE, 0x0219F8A0, old block start
+    0x219b4fc branched to it): A = mode 0x0d -> 0x0e -> 0x01, bombchu launches; B = panel 0, map stays (CANCEL); B again =
+    back arrow (mode 0x01). Without the fix: A / B = mode 0x0d, panel 1 after 180 frames. Fresh boot of the full ROM with a
+    playthrough .srm copy: file select, Adventure, sea; no crash.
+  - Not tested: real RetroArch; a full hot-link of v2.1.96 into state 841 (only the bombchu block was swapped).
+  ROM SHA-1 c26846e78025762d8fb634691bdd1d248192b3eb, CRC32 fcc861d0. Save: "...v2.1.96-wip.srm" = a copy of the playthrough .srm.
 
 v2.1.95-wip (2026-10-24, rig tested; released as v2.1.81 the same day on the user's request, before a user test (builds\v2.1.81\: bps 28,398, xdelta 30,376, README, source zip; xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): a key pressed during a tab switch waits for the new tab (user
   request: "Fix the tab switch race: Down pressed right after a tab tap holds a slot on the old tab").

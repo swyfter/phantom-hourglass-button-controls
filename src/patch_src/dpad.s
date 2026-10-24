@@ -227,8 +227,10 @@
         .equ BCHU_GO_Y, 160
         .equ BCHU_CANCEL_X, 163
         .equ BCHU_CANCEL_Y, 160
-        .equ BCHU_VT, 0x02158ef4        @   route object (0x5fc bytes below MAP_OBJ's, user states 525 / 526 / 537):
+        .equ BCHU_VT, 0x02158ef4        @   route object (heap, no fixed place):
         .equ BCHU_PANEL, 0x14           @   byte +BCHU_PANEL = 1 once a route is drawn, 0 after GO! / CANCEL
+        .equ BCHU_LIST, 0x020e9c28      @   list of {func, object, id} (12 bytes, func 0 = end, at most 6
+                                        @   seen); the route object is in it while a route is drawn
         .equ SLATE_MODE, 0x3b          @ Cyclone Slate screen (sea item; draw a symbol to warp)
         .equ SLATE_BACK_X, 15           @   its back arrow (lower left) -> sailing (mode 1)
         .equ SLATE_BACK_Y, 177
@@ -714,19 +716,24 @@ pad_update:
         ldrb    r0, [r0]
         cmp     r0, #0
         bne     bc_end
-        ldr     r3, =MAP_OBJ            @ the route object lies BCHU_OBJ_OFF below the screen object
-        ldr     r3, [r3]                @   (both new for each route screen; they move together)
-        sub     r3, r3, #0x400
-        sub     r3, r3, #0x1fc
-        sub     r12, r3, #0x02000000    @ in main RAM?
+        ldr     r3, =BCHU_LIST          @ find the route object in BCHU_LIST (its distance to MAP_OBJ's
+        ldr     r0, =BCHU_VT            @   object varies: 0x5fc, 0x600, 0xccf8 in user states)
+bc_scan: and     r12, r3, #0xff          @ at most 16 entries (0x28 .. 0xe8)
+        cmp     r12, #0xe8
+        bhs     bc_none
+        ldr     lr, [r3], #12           @ lr = func, then object (free: pushed by pad_update,
+        cmp     lr, #0                  @   menu_tap_at overwrites it)
+        beq     bc_none
+        ldr     lr, [r3, #-8]
+        sub     r12, lr, #0x02000000    @ in main RAM?
         cmp     r12, #0x400000
-        movhs   r12, #0
-        bhs     bc_pan
-        ldr     r12, [r3]
-        ldr     r0, =BCHU_VT
+        bhs     bc_scan
+        ldr     r12, [lr]
         cmp     r12, r0
-        ldrbeq  r12, [r3, #BCHU_PANEL]
-        movne   r12, #0                 @ r12 = panel shown
+        bne     bc_scan
+        ldrb    r12, [lr, #BCHU_PANEL]
+        b       bc_pan
+bc_none: mov    r12, #0                 @ r12 = panel shown
 bc_pan: tst     r1, #KEY_A
         bne     bc_a
         mov     r3, #KEY_B
