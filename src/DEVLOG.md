@@ -13,8 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.83 (builds2.1.83\, = root playthrough ROM, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; L opens / closes the final fight's hourglass drawing frame). Root wip: none. Next wip: v2.1.100-wip.
-- Previous release: v2.1.82 (builds2.1.82\, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list).
+- Latest release: v2.1.83 (builds\v2.1.83\, = root playthrough ROM, = v2.1.99-wip, released 2026-10-24 on the user's request before a RetroArch test; L opens / closes the final fight's hourglass drawing frame). Root wip: none. Next wip: v2.1.100-wip.
+- Previous release: v2.1.82 (builds\v2.1.82\, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list).
 - Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
@@ -111,7 +111,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.99-wip (2026-10-24, rig tested; released as v2.1.83 the same day on the user's request, before a RetroArch test (builds2.1.83\: bps 28,493, xdelta 30,470, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user test due): L also closes the hourglass drawing frame (user request:
+v2.1.99-wip (2026-10-24, rig tested; released as v2.1.83 the same day on the user's request, before a RetroArch test (builds\v2.1.83\: bps 28,493, xdelta 30,470, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept; user test due): L also closes the hourglass drawing frame (user request:
   "L button should also close the drawing frame").
   - Found (rig, states 938 / 940): a stylus tap on the hourglass icon (128, 180) closes the open frame. While the frame
     is open the button is not updated (fs_btn never sees it), so gr_tab goes stale and v2.1.98's L did nothing.
@@ -215,7 +215,7 @@ v2.1.93-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "both 
   "sign" a letter in an ink box, OK and Rewrite buttons). Design approved by the user; the user then dropped the planned
   auto-signature (Y / A on an empty box wrote "Link" via fg_x / fg_y strokes) to save code space.
   ROM "Phantom Hourglass US - Button Controls v2.1.93-wip.nds", SHA-1 a7227218c7711da0e3640f157cdf7bc2c29114ab,
-  CRC32 904b5c25; based on v2.1.92-wip; source known2.1.93-wip_dpad.s; dpad.bin 18229 bytes, CODE_RESERVE 0x4800
+  CRC32 904b5c25; based on v2.1.92-wip; source known\v2.1.93-wip_dpad.s; dpad.bin 18229 bytes, CODE_RESERVE 0x4800
   (was 0x4700), 203 bytes free:
   - Found (rig, state 825 = v2.1.91-wip code): OK = touch button id 0x90, Rewrite = 0x91 (layout cell 0x47, elements
     0 / 1, centres (69, 177) / (185, 177)). Mode 1, keys not gated. The game hides OK (no update) while the box is
@@ -229,7 +229,7 @@ v2.1.93-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "both 
 
 v2.1.92-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all tests pass!" (NPC choices by stylus and D-pad, Save No); released as v2.1.79 the same day on the user's request (builds\v2.1.79\: bps 28,262, xdelta 30,241, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept): a stylus tap picks a dialogue choice again.
   ROM "Phantom Hourglass US - Button Controls v2.1.92-wip.nds", SHA-1 33735b5fb6d9678051042ad758b262adfbbc19f7,
-  CRC32 56b04042; based on v2.1.91-wip; source known2.1.92-wip_dpad.s; dpad.bin 18073 bytes, 103 free of 0x4700:
+  CRC32 56b04042; based on v2.1.91-wip; source known\v2.1.92-wip_dpad.s; dpad.bin 18073 bytes, 103 free of 0x4700:
   - User report: the D-pad works on dialogue choices, but a stylus tap on a bubble no longer picks it.
     Cause: since v2.1.11-wip choice_ctl holds the fake stylus on the top bubble (ch_tap CH_HOLD, no end), and
     menu_touch writes that press over every real sample. Only the menu bar / Sea Chart (mb_sel / sc_sel) let the
