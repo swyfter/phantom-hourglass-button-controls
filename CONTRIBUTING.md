@@ -2,11 +2,12 @@
 
 Thank you for your help with **Phantom Hourglass - Button Controls**.
 
-You can help in three ways:
+You can help in two ways:
 
 1. Report a bug.
 2. Ask for a feature.
-3. Send a code or documentation change.
+
+This repo does not accept pull requests.
 
 > **Please do not ask for ROMs or ROM links.** Such requests are deleted. Dump the game from your own cartridge.
 
@@ -46,7 +47,9 @@ A screenshot or a short video helps a lot.
 
 ### Save files
 
-An in-game save file (`.sav` or `.srm`) near the bug helps us to find the problem fast. Attach it to the issue as a `.zip` file.
+Do not attach a save file or a `.zip` file to a new issue. We ask for a save in the issue if we need one.
+
+If we ask, attach your in-game save file (`.sav` or `.srm`) from a point near the bug. GitHub does not accept these file types, so put the save in a `.zip` file. Put only the save file in the `.zip` file.
 
 Do not attach an emulator save state. A save state holds the code of the patch version that made it. It can also hold your DS firmware nickname.
 
@@ -66,13 +69,23 @@ Use the `accessibility` label if the stylus is a barrier for you. For example, y
 
 ---
 
-## Send a change
+## Code and documentation changes
 
-The patch code is ARM assembly. The build tools are Python scripts. All of it is in [`src/`](src).
+This repo does not accept pull requests.
 
 > [!NOTE]
 > **This project is AI-written.** Claude, an AI model by Anthropic, writes the patch code, the tools and the documentation. swyfter tests each build in the game.
-> Changes from people are welcome. We test each change in the game before it goes into a release.
+
+To suggest a change, open an issue:
+
+- For a code change, tell us what to change and why. You can paste a short piece of code in the issue.
+- For a documentation change, add the `documentation` label. Tell us which file and which text to change.
+
+---
+
+## Build the patch yourself
+
+The patch code is ARM assembly. The build tools are Python scripts. All of it is in [`src/`](src).
 
 ### What you need
 
@@ -108,22 +121,9 @@ The patch code is ARM assembly. The build tools are Python scripts. All of it is
 
 `build_v2.py` stops if your ROM is not the clean USA ROM.
 
-The patch code has a fixed size limit (`CODE_RESERVE` in `build_v2.py`). Keep new code small. Tell us in the pull request how many bytes your change adds.
+The patch code has a fixed size limit (`CODE_RESERVE` in `build_v2.py`). The build stops if the code is too large.
 
-### Rules for a pull request
-
-1. Make one change in each pull request.
-2. Tell us what the change does and why.
-3. Tell us how you tested it: emulator, core, and the place in the game.
-4. Keep the stylus working. The patch adds buttons. It must not remove a stylus action.
-5. Do not commit ROMs (`.nds`), saves (`.sav`, `.srm`), save states or RAM dumps. The `.gitignore` file blocks most of them.
-6. Do not commit game text or other copyrighted game data.
-
-For a large change, open an issue first. Then we can agree on the plan before you start.
-
-### Documentation
-
-Documentation changes are welcome too. Use short sentences and plain words. The README and the docs use [Simplified Technical English](https://www.asd-ste100.org/) style.
+Do not share a patched ROM. Share only the `.bps` or `.xdelta` patch file.
 
 ---
 
