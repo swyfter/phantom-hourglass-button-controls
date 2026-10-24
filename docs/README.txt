@@ -167,6 +167,13 @@ Controls
   B or Select        Salvage Arm: stop (the red arrow)
 The stylus still works for everything.
 
+English text fixes
+------------------
+The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 small
+wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top
+screen". These changes affect only the text. Full list of text fixes:
+https://github.com/swyfter/phantom-hourglass-button-controls/blob/main/docs/dialogue-typos.md
+
 What changed from v2.1.77 (in v2.1.78)
 --------------------------------------
  - Hammer: taking it out no longer turns Link toward his fairy. He keeps his facing, and the D-pad turns him

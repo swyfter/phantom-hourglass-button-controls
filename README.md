@@ -76,6 +76,12 @@ See the **[full controls list](docs/README.txt)**.
 
 ---
 
+## English text fixes
+
+The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 small wording mistakes. For example, "the top sceen" in the fishing tutorial is now "the top screen". These changes affect only the text. [See the full list of text fixes](docs/dialogue-typos.md).
+
+---
+
 ## What still needs the stylus
 
 - Drawing: routes at sea, boomerang and bombchu paths, map notes and Cyclone Slate symbols.
