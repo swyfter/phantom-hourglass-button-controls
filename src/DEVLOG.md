@@ -13,7 +13,7 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.78 (builds\v2.1.78\, = root playthrough ROM, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: v2.1.92-wip (dialogue choices take the stylus again; rig tested, user test due). Next wip: v2.1.93-wip.
+- Latest release: v2.1.78 (builds\v2.1.78\, = root playthrough ROM, = v2.1.91-wip, released 2026-10-24 on the user's request; hammer facing, boulder let-go; user tested in RetroArch the same day: works). Root wip: v2.1.92-wip (dialogue choices take the stylus again; user tested in RetroArch 2026-10-24: all pass; not released). Next wip: v2.1.93-wip.
 - Previous release: v2.1.77 (builds\v2.1.77\, = v2.1.90-wip, released 2026-10-24 on the user's request; A swings straight; user tested in RetroArch the same day: works).
 - Code space: CODE_RESERVE 0x4700 since v2.1.91-wip, 103 bytes free (v2.1.92-wip).
 - Previous release: v2.1.76 (builds\v2.1.76\, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
@@ -101,7 +101,7 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
-v2.1.92-wip (2026-10-24, rig tested; user test due): a stylus tap picks a dialogue choice again.
+v2.1.92-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all tests pass!" (NPC choices by stylus and D-pad, Save No)): a stylus tap picks a dialogue choice again.
   ROM "Phantom Hourglass US - Button Controls v2.1.92-wip.nds" (root), SHA-1 33735b5fb6d9678051042ad758b262adfbbc19f7,
   CRC32 56b04042; based on v2.1.91-wip; source known2.1.92-wip_dpad.s; dpad.bin 18073 bytes, 103 free of 0x4700:
   - User report: the D-pad works on dialogue choices, but a stylus tap on a bubble no longer picks it.
@@ -115,7 +115,7 @@ v2.1.92-wip (2026-10-24, rig tested; user test due): a stylus tap picks a dialog
     No = back to the field, no save; on Yes = "Save complete."; Down + A = No; A = Yes (saving). A 4-frame tap only
     cancels the held Yes (no bubble lit); a second tap on No then picks it, or Down x2 + A picks No. Menu bar: Save
     held, stylus on Map = map opens (old takeover still works).
-  - Not tested: NPC choices with 3-4 bubbles, real RetroArch.
+  - Not tested: NPC choices with 3-4 bubbles.
 
 v2.1.91-wip (2026-10-24, rig tested (hot-linked into user states 806 / 807, which hold the v2.1.76 code); user tested in RetroArch 2026-10-24: "hammer is equipped in the direction link is facing
   without turning him", "boulders do not lock Link in place, he is able to move left and right after pushing them"; released as v2.1.78 the same day on the user's
