@@ -13,7 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.76 (builds\v2.1.76\, = root playthrough ROM, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches). Root wip: none. Next wip: v2.1.90-wip.
+- Latest release: v2.1.76 (builds\v2.1.76\, = root playthrough ROM, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches).
+- Root wip: v2.1.90-wip (2026-10-24, A swings straight; rig tested on user state 1 by hot-link; user test due). Next wip: v2.1.91-wip.
 - Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
 - Previous release: v2.1.73 (builds\v2.1.73\, = v2.1.86-wip; full line at once, could not catch a post beside Link: replaced by v2.1.74).
@@ -95,6 +96,25 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.90-wip (2026-10-24, rig tested; user test due; ROM in root, SHA-1 0e0bc014d2f026794304066cb6190b740110dc74; based on v2.1.76;
+  source known\v2.1.90-wip_dpad.s; not committed):
+  - User report (state 1, v2.1.89-wip, a dungeon 1F, two tablets): standing facing left or down, A turned Link slightly and
+    swung the sword diagonally.
+  - Cause (rig log): A on bare ground sends the probe taps; the first tap ~18-20px from Link on the ground (left/right:
+    probe 1) starts the swing toward that tap. (1) The probes went on during the swing and each one swung again
+    toward its own off-axis spot (down: (-14, 20) swung down-left). (2) Each follow-up probe took its octant from
+    touch ctl +0x6a = the last tap's heading, which the 10px lift turns, so left drifted to up-left. (3) The game takes
+    the swing heading from a point ~6px below Link's feet on screen, so the lifted side tap swung ~25 deg up
+    (rig sweep: (-18, 0) -> 0xb98b, (-18, 6) -> 0xc000). Diagonal headings also depend on where earlier probes turned Link.
+  - Fix (tap_front): follow-up probes keep probe_oct (the first probe's octant). In the follow-up path, Link in the
+    item state (sword swing) = stop probing and set gPlayerAngle = camera yaw + probe_oct * 0x2000 (Link and the
+    swing turn with it; rig: forced 0x6000 held). probe_table unchanged (object probing stays as tuned).
+  - New .ltorg after dir_table: the added literals put the end pool out of reach of fg_ctl (3949). 17541 bytes, 123 free.
+  - Rig (state 1, hot-linked into the v2.1.89 code): one swing per A, end heading left c000, right 4000, down 0, up 8000,
+    down-left e000, down-right 2000, up-left a000, up-right 6000 (two Link spots). The first 1-2 frames of a side
+    swing still start tilted, before the next logic frame turns Link. In the start spot, up-right probe 0 hits the
+    tablet with Ciela and the game swings toward it 10 frames later (6cdb): a target, not a probe swing; unchanged.
 
 v2.1.89-wip (2026-10-24, rig tested; user tested in RetroArch: "all tests pass"; released as v2.1.76 the same day (builds\v2.1.76\: bps, xdelta,
   README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM and wip patches in builds\;

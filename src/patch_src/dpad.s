@@ -4632,6 +4632,7 @@ dir_table:                               @ D-pad mask, heading
         .hword  0x90, 0x2000            @ down+right
         .hword  0x60, 0xa000            @ up+left
         .hword  0xa0, 0xe000            @ down+left
+        .ltorg                          @ (v2.1.90-wip: the end pool was out of reach of fg_ctl)
 
 @ ---------------------------------------------------------------------------
 @ Hook @ 0x020b7938 (ov0, inside the touch-controller update), replaces: strh r1, [r4, #98]
@@ -4840,7 +4841,24 @@ no_grab:
 .ifdef DEBUGLOG
         bl      dbg_flags
 .endif
-        ldrb    r1, [r4, #0x81]         @ did the last tap hit something?
+        ldr     r1, =LINK_STATES        @ a tap near Link on bare ground swings the sword (the
+        ldr     r1, [r1]                @   item state): stop, or each later probe swings again
+        cmp     r1, #0                  @   toward its own, off-axis spot (user state 1, v2.1.89:
+        beq     37f                     @   A facing left / down swung diagonally)
+        ldr     r1, [r1, #4]            @ (LinkStateId_Item = 1)
+        ldr     r3, =LINK_STATE
+        ldr     r3, [r3]
+        cmp     r1, r3
+        bne     37f
+        ldr     r0, =probe_oct          @ and swing straight the probes' way: the swing goes
+        ldrb    r0, [r0]                @   toward the tap that started it, and the game takes
+        add     r1, r5, #0x200          @   that heading from a point ~6px below Link's feet (a
+        ldrsh   r1, [r1, #0x26]         @   side tap 10px up swung 25 deg off). Link turns with
+        add     r0, r1, r0, lsl #13     @   gPlayerAngle (camera yaw + octant * 0x2000)
+        ldr     r1, =PLAYER_ANGLE
+        strh    r0, [r1]
+        b       stop_probe
+37:     ldrb    r1, [r4, #0x81]         @ did the last tap hit something?
         cmp     r1, #0                  @   +0x81 target set, +0x82 liftable/readable
         bne     stop_probe              @   under the tap, +0x84 talk target
         ldrb    r1, [r4, #0x82]
@@ -4906,6 +4924,11 @@ do_probe:
         bl      ScreenFromWorld
         ldrh    r8, [sp, #8]            @ Link on screen: x
         ldrh    r7, [sp, #12]           @                 y
+        sub     r0, r6, #1              @ follow-up probe (index 1..): keep the first probe's
+        cmp     r0, #(NPROBES - 1)      @   octant. +0x6a is the last tap's heading, which the
+        ldrlo   r0, =probe_oct          @   10px lift turns, so the octant drifted (left ->
+        ldrblo  r0, [r0]                @   up-left) and the probes went off-axis
+        blo     4f
         ldr     r2, =last_oct
         ldrb    r0, [r2, #DIR_AGE]
         cmp     r0, #DIR_FRESH
