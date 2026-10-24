@@ -13,6 +13,8 @@ This patch was first called the "D-pad Patch". It is based on the 2014 D-pad pat
 ## What you need
 
 - Your own copy of the game: **Phantom Hourglass (USA)**, full 64 MB ROM. This repo does **not** include the game.
+
+> **Please do not ask for ROMs or ROM links.** Such requests are deleted. Dump the game from your own cartridge.
 - A Nintendo DS emulator. The patch is tested in **RetroArch** with the **melonDS DS** core.
 
 To check that your ROM is the correct one, compare its checksum:
