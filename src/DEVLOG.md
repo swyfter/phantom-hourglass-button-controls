@@ -13,7 +13,7 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user tested the bomb set-down in RetroArch 2026-10-24: passed).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: none. Next wip: v2.1.98-wip.
+- Latest release: v2.1.82 (builds\v2.1.82\, = root playthrough ROM, = v2.1.97-wip, released 2026-10-24 after the user's RetroArch test: "all buttons work"; bombchu map GO! / CANCEL found through the game's list). Root wip: v2.1.98-wip (L taps the final fight's Phantom Hourglass button; user test due). Next wip: v2.1.99-wip.
 - Previous release: v2.1.81 (builds\v2.1.81\, = v2.1.95-wip, released 2026-10-24 on the user's request before a RetroArch test; user tested in RetroArch the same day: passed; merchant grid light kept on long Left / Right, keys wait during a tab switch).
 - Previous release: v2.1.80 (builds\v2.1.80\, = v2.1.93-wip, released 2026-10-24 after the user's RetroArch test: "both buttons work great"; letter screen A = OK, B = Rewrite).
 - Previous release: v2.1.79 (builds\v2.1.79\, = v2.1.92-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass!"; stylus picks dialogue choices again).
@@ -108,6 +108,18 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
   (2026-10-21: "python" is not on the PATH in this shell; use "py -3".)
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
+
+v2.1.98-wip (2026-10-24, rig tested; user test due): L taps the Phantom Hourglass button in the final boss fight
+  (user request, user state 938: "a new button to press for the phantom hourglass"; design as the Gongoron swap).
+  - Found (rig, state 938): the hourglass = touch button (vtable 0x020e893c) id HG_ID 0x1d, layout cell HG_CELL 0x4a,
+    bottom centre ~(128, 180); a stylus tap there sets its +0xd to 4 and time stops. Its +0x11 (GORON_FORM) = 0.
+  - Code: fs_btn records it in gr_tab like the Goron swap button, so goron_ctl taps it on a new L. +0x11 = 0, so
+    fg_roll does not take B for a Gongoron roll. dpad.bin 18357 bytes, 75 bytes free of 0x4800.
+  Rig (state 938 = v2.1.97-wip code; new dpad.bin poked at 0x0219B120, 5 BL hooks re-aimed): L = button +0xd 8, time
+  stops (yellow corners, Menu / Items gone); L again while stopped = nothing; time runs again later.
+  Not tested: real RetroArch; whether id 0x1d / cell 0x4a shows on other screens (L would tap it there too).
+  ROM: "Phantom Hourglass US - Button Controls v2.1.98-wip.nds" (root), SHA-1 d9b324c6b8f62070ac6b8d3aeeffca23001517ef,
+  CRC32 1abb3228; save: "...v2.1.98-wip.srm" in RetroArch saves\melonDS DS\ = a copy of the playthrough .srm.
 
 v2.1.97-wip (2026-10-24, rig tested; user tested in RetroArch 2026-10-24: "all buttons work"; released as v2.1.82 the same day on the user's request (builds\v2.1.82\: bps 28,442, xdelta 30,420, README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM in builds\, = root playthrough ROM; playthrough .srm kept, 87 bytes free of 0x4800):
   bombchu route panel, fix for v2.1.96-wip: user state "v2.1.96-wip.state2" (Mercay Island, route drawn): no button worked.

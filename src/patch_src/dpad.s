@@ -159,6 +159,8 @@
         .equ GORON_FORM, 0x11           @ the swap button's byte: 1 = playing Gongoron (user states 518 / 522)
         .equ GORON_ID, 0x1c            @ the Goron Temple's Link / Gongoron swap button (top centre,
         .equ GORON_CELL, 0x30           @   layout cell GORON_CELL: the id alone is also used elsewhere)
+        .equ HG_ID, 0x1d                @ the final boss fight's Phantom Hourglass button (bottom centre,
+        .equ HG_CELL, 0x4a              @   ~(128, 180), layout cell HG_CELL; user state 938): L taps it
         .equ SIGN_ID, 0x90              @ letter screen (sign a letter): OK, SIGN_ID + 1 = Rewrite
         .equ SC_MODE, 0x2c              @ Sea Chart screen (four seas; from the menu bar)
         .equ SC_ID0, 0x1f               @   its sea buttons, ids SW 0x1f, SE, NW, NE 0x22; only owned
@@ -3061,10 +3063,13 @@ fs_btn:
         cmp     r4, #SKIP_ID            @ a cutscene's Skip: sk_tab
         ldreq   r4, =sk_tab
         beq     1f
+        ldrsh   r3, [r0, #8]            @ layout cell
         cmp     r4, #GORON_ID           @ the Goron Temple's swap button: gr_tab
-        ldrsheq r3, [r0, #8]
         cmpeq   r3, #GORON_CELL
-        ldreq   r4, =gr_tab
+        beq     0f
+        cmp     r4, #HG_ID              @ the final fight's Phantom Hourglass button: gr_tab too
+        cmpeq   r3, #HG_CELL            @   (its +GORON_FORM is 0: L taps it, B does not roll)
+0:      ldreq   r4, =gr_tab
         ldrbeq  r3, [r0, #GORON_FORM]
         strbeq  r3, [r4, #3]
         beq     1f
@@ -3440,6 +3445,7 @@ skip_ctl:
         .ltorg
 
 @ L = the Goron Temple's swap button (touch button id GORON_ID, top centre): Link <-> Gongoron.
+@ Also the final boss fight's Phantom Hourglass button (HG_ID, bottom centre): stops time.
 @ fs_btn records where it is and the pad read it was last updated in (gr_tab). While it is
 @ live, a new L is hidden from the game (it does nothing there) and menu_tap taps the button.
 goron_ctl:
