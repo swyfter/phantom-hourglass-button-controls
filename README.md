@@ -89,6 +89,7 @@ See the **[full controls list](docs/README.txt)**.
 - [Full controls, changelog and known limits](docs/README.txt)
 - [All releases](https://github.com/swyfter/phantom-hourglass-button-controls/releases)
 - [Source code and build scripts](src) (for modders)
+- [How to report a bug, ask for a feature or send a change](CONTRIBUTING.md)
 
 ## Credits
 
