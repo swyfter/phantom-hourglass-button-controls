@@ -11,7 +11,7 @@ This patch was first called the "D-pad Patch". It is based on the 2014 D-pad pat
 > swyfter chose the features, reported the bugs and played the game with each build to test it.
 > Most releases are tested by a human in RetroArch. Some are tested only with an automated emulator script first.
 
-**Latest version: [v2.1.75](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
+**Latest version: [v2.1.76](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest)**
 
 ---
 
@@ -34,8 +34,8 @@ To check that your ROM is the correct one, compare its checksum:
 ## How to install (about 2 minutes)
 
 1. Download **one** patch file from the [latest release](https://github.com/swyfter/phantom-hourglass-button-controls/releases/latest):
-   - [`zelda_phantom_hourglass_buttons_v2.1.75.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.75/zelda_phantom_hourglass_buttons_v2.1.75.xdelta), or
-   - [`zelda_phantom_hourglass_buttons_v2.1.75.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.75/zelda_phantom_hourglass_buttons_v2.1.75.bps)
+   - [`zelda_phantom_hourglass_buttons_v2.1.76.xdelta`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.76/zelda_phantom_hourglass_buttons_v2.1.76.xdelta), or
+   - [`zelda_phantom_hourglass_buttons_v2.1.76.bps`](https://github.com/swyfter/phantom-hourglass-button-controls/releases/download/v2.1.76/zelda_phantom_hourglass_buttons_v2.1.76.bps)
 2. Open [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) in your browser. It works offline and does not upload your ROM.
 3. Select your **clean** (unpatched) ROM, then select the patch file.
 4. Click **Apply patch** and save the new `.nds` file.

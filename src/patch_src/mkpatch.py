@@ -40,6 +40,46 @@ def regions(src, tgt):
             yield 'diff', i, j - i
         i = j
 
+KEY = 32  # source index: one entry per KEY-aligned block, so moved data of 2 * KEY bytes or more is found
+
+def match_len(a, ai, b, bi, end):
+    """Number of equal bytes a[ai + k] == b[bi + k] for bi + k < end (blocks first, then bisect)."""
+    k, n = 0, min(end - bi, len(a) - ai)
+    while k < n:
+        e = min(k + BLOCK, n)
+        if a[ai + k:ai + e] == b[bi + k:bi + e]:
+            k = e; continue
+        lo, hi = k, e
+        while hi - lo > 1:
+            mid = (lo + hi) >> 1
+            if a[ai + lo:ai + mid] == b[bi + lo:bi + mid]: lo = mid
+            else: hi = mid
+        return lo
+    return n
+
+def ops(src, tgt):
+    """Yield ('copy', tgt_off, len, src_off) / ('add', tgt_off, len, None) over the target.
+    Same-offset copies first; in the other spans, copies of data that moved (a hash of each
+    KEY-aligned source block finds them, then the match grows both ways)."""
+    index = {}
+    for p in range(0, len(src) - KEY + 1, KEY):
+        index.setdefault(src[p:p + KEY], p)
+    for kind, off, ln in regions(src, tgt):
+        if kind == 'same':
+            yield 'copy', off, ln, off; continue
+        end = off + ln; lit = i = off
+        while i + KEY <= end:
+            p = index.get(tgt[i:i + KEY])
+            if p is None: i += 1; continue
+            b = 0                                      # grow the match backwards
+            while i - b > lit and p - b > 0 and src[p - b - 1] == tgt[i - b - 1]: b += 1
+            n = b + match_len(src, p, tgt, i, end)
+            if n < MIN_COPY: i += 1; continue
+            if i - b > lit: yield 'add', lit, i - b - lit, None
+            yield 'copy', i - b, n, p - b
+            lit = i = i - b + n
+        if lit < end: yield 'add', lit, end - lit, None
+
 # ---------------- BPS ----------------
 def bps_num(n):
     out = bytearray()
@@ -50,11 +90,15 @@ def bps_num(n):
 
 def make_bps(src, tgt):
     p = bytearray(b'BPS1') + bps_num(len(src)) + bps_num(len(tgt)) + bps_num(0)
-    for kind, off, ln in regions(src, tgt):
-        if kind == 'same':
+    srel = 0
+    for kind, off, ln, so in ops(src, tgt):
+        if kind == 'add':
+            p += bps_num(((ln - 1) << 2) | 1) + tgt[off:off + ln]  # TargetRead
+        elif so == off:
             p += bps_num(((ln - 1) << 2) | 0)              # SourceRead
         else:
-            p += bps_num(((ln - 1) << 2) | 1) + tgt[off:off + ln]  # TargetRead
+            d = so - srel; srel = so + ln
+            p += bps_num(((ln - 1) << 2) | 2) + bps_num((abs(d) << 1) | (d < 0))  # SourceCopy
     p += struct.pack('<II', zlib.crc32(src), zlib.crc32(tgt))
     p += struct.pack('<I', zlib.crc32(p))
     return bytes(p)
@@ -90,23 +134,41 @@ def vint(n):
     while n: out.append(0x80 | (n & 0x7f)); n >>= 7
     return bytes(reversed(out))
 
-WIN = 0x800000  # 8 MiB target windows, each paired with the same source range
+WIN = 0x800000  # target window size (8 MiB)
+SEG = 0x1000000  # largest source segment of a window (16 MiB)
 
 def make_vcdiff(src, tgt):
     out = bytearray(b'\xd6\xc3\xc4\x00') + bytes([0])   # magic, version 0, no header extras
-    for w0 in range(0, len(tgt), WIN):
-        w1 = min(w0 + WIN, len(tgt))
-        s0, s1 = w0, min(w1, len(src))
-        data = bytearray(); inst = bytearray(); addr = bytearray()
-        for kind, off, ln in regions(src[s0:s1], tgt[w0:w1]):
-            if kind == 'same':
+    def window(w0, w1, items):
+        cp = [(so, ln) for kind, ln, so in items if kind == 'copy']
+        s0 = min((so for so, ln in cp), default=0); s1 = max((so + ln for so, ln in cp), default=0)
+        data = bytearray(); inst = bytearray(); addr = bytearray(); t = w0
+        for kind, ln, so in items:
+            if kind == 'copy':
                 inst += bytes([19]) + vint(ln)       # COPY, size follows, mode 0 (VCD_SELF)
-                addr += vint(off)                    # address within the source segment
+                addr += vint(so - s0)                # address within the source segment
             else:
                 inst += bytes([1]) + vint(ln)        # ADD, size follows
-                data += tgt[w0 + off:w0 + off + ln]
+                data += tgt[t:t + ln]
+            t += ln
         delta = vint(w1 - w0) + bytes([0]) + vint(len(data)) + vint(len(inst)) + vint(len(addr)) + data + inst + addr
-        out += bytes([1]) + vint(s1 - s0) + vint(s0) + vint(len(delta)) + delta   # VCD_SOURCE
+        if cp: out.extend(bytes([1]) + vint(s1 - s0) + vint(s0))      # VCD_SOURCE
+        else: out.append(0)
+        out.extend(vint(len(delta)) + delta)
+    w0 = 0; items = []; lo = hi = None
+    for kind, off, ln, so in ops(src, tgt):
+        while ln:
+            if off == w0 + WIN:                      # window full
+                window(w0, off, items); w0 = off; items = []; lo = hi = None
+            if kind == 'copy' and lo is not None and max(hi, so + ln) - min(lo, so) > SEG:
+                window(w0, off, items); w0 = off; items = []; lo = hi = None   # source too far
+            k = min(ln, w0 + WIN - off)
+            items.append((kind, k, so))
+            if kind == 'copy':
+                lo = so if lo is None else min(lo, so); hi = so + k if hi is None else max(hi, so + k)
+                so += k
+            off += k; ln -= k
+    if items: window(w0, len(tgt), items)
     return bytes(out)
 
 def main(srcp, tgtp, base):

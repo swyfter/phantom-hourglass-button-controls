@@ -9,7 +9,7 @@ import sys, os, struct, subprocess, hashlib, zlib
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
 from blz import blz_dec
-from blzenc import compress
+from blzenc import recompress
 from nds import ROM
 import text_fix
 
@@ -86,7 +86,9 @@ def main(src, dst):
     struct.pack_into('<2I', arm9, MP, new_al, new_al + 36)
     assert B + len(arm9) < bss1, 'ARM9 image would overlap overlay region'
 
-    comp = compress(bytes(arm9[0x4000:]))
+    # Reuse the original token stream: only the tokens near an edit and at the high end (our
+    # code, the new autoload table) change, so the patch holds almost none of the original code.
+    comp = recompress(a9[0x4000:comp_end - B], bytes(arm9[0x4000:]))
     assert blz_dec(comp) == bytes(arm9[0x4000:])
     new_a9 = bytearray(arm9[:0x4000] + comp)
     p32(new_a9, MP + 0x14, B + len(new_a9))      # compressed_static_end
@@ -129,7 +131,7 @@ def main(src, dst):
         dec = bytearray(blz_dec(raw[:e[7] & 0xFFFFFF]) if (e[7] >> 24) & 1 else raw)
         return e, fid, s, t, dec
     def store(i, e, fid, s, t, dec):
-        c = compress(bytes(dec)); assert blz_dec(c) == bytes(dec)
+        c = recompress(bytes(rom[s:t])[:e[7] & 0xFFFFFF], bytes(dec)); assert blz_dec(c) == bytes(dec)
         # in place if it fits before the next file's 0x200 boundary, else append
         limit = (t + 0x1FF) & ~0x1FF
         if s + len(c) <= limit:

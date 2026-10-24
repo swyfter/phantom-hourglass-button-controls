@@ -13,7 +13,8 @@
 - Latest release: v2.1.69 (builds\v2.1.69\, = root playthrough ROM, = v2.1.81-wip, released 2026-10-22 on the user's request; user test of the bomb set-down still due).
 - Root wip: none (v2.1.81-wip released as v2.1.69; it is in builds\). Entry below.
 - Latest release: v2.1.70 (builds\v2.1.70\, = root playthrough ROM, = v2.1.82-wip, released 2026-10-22 on the user's request; user test of the hook hold A due). Root wip: none.
-- Latest release: v2.1.75 (builds\v2.1.75\, = root playthrough ROM, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone; user test due). Root wip: none. Next wip: v2.1.89-wip.
+- Latest release: v2.1.76 (builds\v2.1.76\, = root playthrough ROM, = v2.1.89-wip, released 2026-10-24 after the user's RetroArch test: "all tests pass"; same game as v2.1.75, ~28 KB patches). Root wip: none. Next wip: v2.1.90-wip.
+- Previous release: v2.1.75 (builds\v2.1.75\, = v2.1.88-wip, released 2026-10-24 on the user's request; A below a pedestal places the carried stone).
 - Previous release: v2.1.74 (builds\v2.1.74\, = v2.1.87-wip; user tested in RetroArch 2026-10-23).
 - Previous release: v2.1.73 (builds\v2.1.73\, = v2.1.86-wip; full line at once, could not catch a post beside Link: replaced by v2.1.74).
 - Previous release: v2.1.72 (builds\v2.1.72\, = v2.1.85-wip, released 2026-10-22 on the user's request; Gongoron rolls with A / B in the rupee minigame; user test due).
@@ -62,6 +63,7 @@ Releases since v2.1.41 ("User test" = tested by the user in RetroArch; "rig" = o
 | v2.1.73 | v2.1.86-wip | 2026-10-22 | 39941546bbc536ffb8448ba1b16d4183acf01809 | hook hold A draws the line at full length at once (HK_START 255); could not catch a post beside Link | not tested; released on the user's request |
 | v2.1.74 | v2.1.87-wip | 2026-10-22 | a6fe4bccaa152c32d487c4b52f760fd4eded8d2b | hook line starts at Link, full in 8 reads (HK_START 0, HK_STEP 32) | yes (RetroArch, 2026-10-23) |
 | v2.1.75 | v2.1.88-wip | 2026-10-24 | c49f77eab798667024d85cafe516eaa75dfb79c7 | A below a pedestal places the carried stone (drop_up, CODE_RESERVE 0x4500) | not tested; released on the user's request |
+| v2.1.76 | v2.1.89-wip | 2026-10-24 | 74504cc896a5ccaa043b8fcb48a91ced316237d8 | same game as v2.1.75; patches ~28 KB instead of 1.3 MB (blzenc.recompress, mkpatch moved-data copies) | yes |
 
 Each release folder builds\vX.Y.Z\ has the bps, xdelta, README and source zip. Release steps: see "ROM files" below.
 
@@ -84,6 +86,8 @@ When a wip is superseded, move it to builds\. On release: builds\vX.Y.Z\, root p
 ## Build
   python3 patch_src/build_v2.py clean.nds out.nds   # needs clang, ld.lld, llvm-objcopy, llvm-nm (link.py)
   python3 patch_src/mkpatch.py clean.nds out.nds name   # makes .bps/.xdelta (prefer the official xdelta3 -e -9 -S djw)
+  (since v2.1.89-wip build_v2 reuses the original BLZ streams (blzenc.recompress) and mkpatch copies moved data, so the
+  patches hold our code and small fragments only: ~28 KB instead of 1.3 MB)
 Clean ROM: US AZEE rev0, SHA-1 4c8f52dd719918bbcd46e73a8bae8628139c1b85.
 Windows (2026-10-16): winget Python 3.12 + LLVM. build_v2.py now calls link.py (clang assembles; the Windows
 LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the released v2 SHA-1 exactly.
@@ -92,6 +96,30 @@ LLVM package has no llvm-mc). Verified: building dpad_v2_0.s reproduces the rele
 
 ## Recent wip entries (v2.1.58-wip and later; older ones in src\DEVLOG-archive.md)
 
+v2.1.89-wip (2026-10-24, rig tested; user tested in RetroArch: "all tests pass"; released as v2.1.76 the same day (builds\v2.1.76\: bps, xdelta,
+  README, source zip rebuilt to the same SHA-1, xdelta re-applied with src/apply.py to the same SHA-1); ROM and wip patches in builds\;
+  SHA-1 74504cc896a5ccaa043b8fcb48a91ced316237d8, CRC32 dde8472d): same game as v2.1.75, much smaller patch (pre-public review).
+  Patch size: bps 1,311,010 -> 27,886 bytes, xdelta 1,311,568 -> 29,866 bytes. Literal bytes in the patch: 24,790 (our compressed
+  code + autoload table 12,007; edit fragments in ARM9 / overlays ~300; BMG text edits and their offset tables ~12,200).
+  Cause: build_v2 recompressed ARM9 and overlays 0/3/9/14 from scratch, so each new BLZ stream differed everywhere.
+  - blzenc.recompress(orig, data): parses the original BLZ token stream, keeps every token that still decodes to the new bytes,
+    re-encodes only the spans between them, and splits refs (len l -> l-1 + literal) so that the next kept token has its
+    original slot in its group of 8 (one flag byte per group). Then the stream after an edit is the original bytes, only
+    shifted. Keeps the original cut (raw prefix) if blz_dec (an in-place decode, as on the DS) still matches, else the
+    argmax cut as compress(). recompress(f, blz_dec(f)) == f for ARM9 and overlays 0/3/9/14 of the clean ROM.
+  - ARM9: the plan was to leave the tail (autoload table + our code) uncompressed. Not possible: the clean ARM9 is
+    compressed to its end (comp_end = file end, raw prefix 1 byte, the old table is inside the stream), and an uncompressed
+    tail after comp_end would be overwritten by the in-place decode. So our code + the new table are new tokens at the
+    reversed start of the original stream.
+  - mkpatch: ops() adds copies from any source offset (hash of each 32-byte aligned source block, then the match grows
+    both ways): BPS SourceCopy; VCDIFF COPY in each window's own source segment (window <= 8 MiB, segment <= 16 MiB).
+    Both still verified (apply_bps, src/apply.py). Not yet checked with the official xdelta3 or Flips (none installed here).
+  - Proof (scratchpad prove.py, v2.1.75 vs v2.1.89-wip): decoded ARM9 identical except compressed_static_end
+    (0x02000b78); all 62 decoded overlays and overlay table entries identical except the size field; all other files
+    identical (15 MESG text files too); ARM7 identical; header differs only in ARM9 size (0x2c) and CRC (0x15e).
+  - Rig (fresh boot, playthrough .srm copy): title, file select (Start, A), in the field D-pad Right / Up move Link,
+    B slashes. The playthrough .srm was copied to the wip save name (not the other way).
+  - compress() gives the same output as before (rebuilt v2.1.75: same SHA-1).
 v2.1.88-wip (2026-10-23, rig tested by data poke only; released as v2.1.75 on 2026-10-24 (builds\v2.1.75\: bps, xdelta, README, source zip rebuilt to the same SHA-1); ROM in builds\;
   SHA-1 c49f77eab798667024d85cafe516eaa75dfb79c7, CRC32 8eccd90c, 255 bytes free of 0x4500): A below a pedestal places the stone.
   User report (state 649, Temple of the Ocean King B9, Link below the center pedestal, carrying a stone): A did not place it.
