@@ -1,8 +1,10 @@
 # Zelda: Phantom Hourglass - Button Controls
 
-Play **The Legend of Zelda: Phantom Hourglass** (Nintendo DS) with the D-pad and buttons instead of the stylus.
+Play **The Legend of Zelda: Phantom Hourglass** (Nintendo DS) with the D-pad and buttons, not only on the field, but in the menus and touch screens too.
 
-Run with the D-pad, swing the sword with B, roll with A + D-pad, and open the items, menus, shops and sea chart with buttons. The stylus still works for everything, so you can use both.
+Most D-pad patches for this game cover movement on the field. This patch goes further: the item bar, menu bar, collection, sea chart, maps, shops, shipyard, fishing, salvage arm, dialogue choices and save menu all work with buttons.
+
+The stylus still works everywhere, so you can use both. **You still need the stylus to finish the game.** Some game mechanics, such as drawing routes and paths, cannot work with buttons. See [What still needs the stylus](#what-still-needs-the-stylus).
 
 This patch was first called the "D-pad Patch". It is based on the 2014 D-pad patch by **griegamaster**, then rewritten, moved and bug-fixed.
 
@@ -75,8 +77,16 @@ Both patch files make the same result. The patch refuses a wrong ROM, so you can
 | **B** | Fire the cannon straight ahead |
 | **X** | Routes screen |
 
-Menus, shops, the shipyard, fishing, the salvage arm and more also work with buttons.
-See the **[full controls list](docs/README.txt)**.
+| Button | Menus and touch screens |
+|---|---|
+| **D-pad + A** | Item bar, menu bar, sea chart, shops, shipyard, dialogue choices, save menu, file select |
+| **B** | Back, close or quit |
+| **L / R** | Collection: turn the pages |
+| **Up / Down** | Dungeon map: floor above / below |
+| **A, Down, B** | Fishing: set the hook, pull up, reel in |
+| **D-pad** | Salvage arm: steer the arm |
+
+See the **[full controls list](docs/README.txt)** for each screen.
 
 ---
 
@@ -87,6 +97,8 @@ The patch also corrects the English dialogue (since v2.1.55): 7 typos and 26 sma
 ---
 
 ## What still needs the stylus
+
+You cannot finish the game with buttons only. Some game mechanics are made for the stylus, and buttons cannot do them well. Keep the stylus (or your mouse in the emulator) ready for these:
 
 - Drawing: routes at sea, boomerang and bombchu paths, map notes, Cyclone Slate symbols and the signature on a letter.
 - Aiming the cannon at a point, and turning the camera at sea.
